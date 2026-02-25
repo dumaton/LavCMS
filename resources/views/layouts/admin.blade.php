@@ -28,26 +28,30 @@
                     <span>Дашборд</span>
                 </a>
                 
-                <a href="{{ route('admin.news.index') }}"
-                   class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.news.*') ? 'bg-stone-800 text-amber-400' : '' }}">
-                    <svg class="w-4 h-4 shrink-0 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="4" y="4" width="16" height="16" rx="2" />
-                        <path d="M8 9h8" />
-                        <path d="M8 13h5" />
-                    </svg>
-                    <span>Новости</span>
-                </a>
+                @if(config('features.news_enabled'))
+                    <a href="{{ route('admin.news.index') }}"
+                       class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.news.*') ? 'bg-stone-800 text-amber-400' : '' }}">
+                        <svg class="w-4 h-4 shrink-0 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="4" width="16" height="16" rx="2" />
+                            <path d="M8 9h8" />
+                            <path d="M8 13h5" />
+                        </svg>
+                        <span>Новости</span>
+                    </a>
+                @endif
                 
-                <a href="{{ route('admin.articles.index') }}"
-                   class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.articles.*') ? 'bg-stone-800 text-amber-400' : '' }}">
-                    <svg class="w-4 h-4 shrink-0 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M7 4h7l5 5v11H7z" />
-                        <path d="M14 4v5h5" />
-                        <path d="M9 13h6" />
-                        <path d="M9 17h4" />
-                    </svg>
-                    <span>Статьи</span>
-                </a>
+                @if(config('features.articles_enabled'))
+                    <a href="{{ route('admin.articles.index') }}"
+                       class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.articles.*') ? 'bg-stone-800 text-amber-400' : '' }}">
+                        <svg class="w-4 h-4 shrink-0 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 4h7l5 5v11H7z" />
+                            <path d="M14 4v5h5" />
+                            <path d="M9 13h6" />
+                            <path d="M9 17h4" />
+                        </svg>
+                        <span>Статьи</span>
+                    </a>
+                @endif
 
                 <a href="{{ route('admin.products.index') }}"
                    class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.products.*') ? 'bg-stone-800 text-amber-400' : '' }}">
@@ -68,6 +72,14 @@
                         <path d="M4 18h7" />
                     </svg>
                     <span>Разделы каталога</span>
+                </a>
+
+                <a href="{{ route('admin.brands.index') }}"
+                   class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.brands.*') ? 'bg-stone-800 text-amber-400' : '' }}">
+                    <svg class="w-4 h-4 shrink-0 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 7h18M3 12h18M3 17h18" />
+                    </svg>
+                    <span>Бренды</span>
                 </a>
 
                 <a href="{{ route('admin.contacts.index') }}"

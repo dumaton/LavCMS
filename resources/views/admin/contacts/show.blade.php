@@ -8,12 +8,17 @@
     <div class="bg-white border border-stone-200 rounded-xl p-6 shadow-sm">
         <div class="flex justify-between items-start gap-4 mb-4">
             <div>
-                <p class="text-sm text-stone-500 mb-1">От:</p>
-                <p class="text-stone-900 font-medium">{{ $contact->name }}</p>
-                <p class="text-stone-600 text-sm">{{ $contact->email }}</p>
+                <p class="text-sm text-stone-500 mb-1"><span class="font-bold">От:</span> {{ $contact->name }}</p>
+                @if($contact->company)
+                    <p class="text-stone-600 text-sm mt-1"><span class="font-bold">Компания:</span> {{ $contact->company }}</p>
+                @endif
+                @if($contact->phone)
+                    <p class="text-stone-600 text-sm mt-1"><span class="font-bold">Телефон:</span> {{ $contact->phone }}</p>
+                @endif
+                                <p class="text-stone-600 text-sm"><span class="font-bold">E-mail:</span> {{ $contact->email }}</p>
             </div>
             <div class="text-right text-xs text-stone-500">
-                <p>Получено: {{ $contact->created_at?->format('d.m.Y H:i') }}</p>
+                <p><span class="font-bold">Получено:</span> {{ $contact->created_at?->format('d.m.Y H:i') }}</p>
                 @if($contact->read_at)
                     <p class="mt-1 text-emerald-600">Прочитано: {{ $contact->read_at->format('d.m.Y H:i') }}</p>
                 @else
@@ -22,13 +27,10 @@
             </div>
         </div>
 
-        <div class="mb-4">
-            <p class="text-sm text-stone-500 mb-1">Тема:</p>
-            <p class="text-stone-900 font-medium">{{ $contact->subject ?: 'Без темы' }}</p>
-        </div>
+
 
         <div>
-            <p class="text-sm text-stone-500 mb-1">Сообщение:</p>
+            <p class="text-sm text-stone-500 mb-1"><span class="font-bold">Сообщение:</span></p>
             <div class="whitespace-pre-wrap text-stone-800 text-sm border border-stone-100 rounded-lg px-4 py-3 bg-stone-50">
                 {{ $contact->message }}
             </div>

@@ -17,13 +17,13 @@
         <label for="url" class="block text-sm font-medium text-stone-700 mb-1">Ссылка (URL) *</label>
         <input type="text" name="url" id="url" value="{{ old('url') }}" required
                class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
-               placeholder="/news или https://...">
+               placeholder="/articles или https://...">
         @error('url')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-        <p class="text-xs text-stone-400 mt-1">Внутренние: /news, /articles, /contact. Внешние: https://...</p>
+        <p class="text-xs text-stone-400 mt-1">Внутренние: /articles, /catalog, /contact. Внешние: https://...</p>
     </div>
     <div>
         <label for="sort_order" class="block text-sm font-medium text-stone-700 mb-1">Порядок</label>
-        <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', 0) }}" min="0"
+        <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', $nextSortOrder ?? 0) }}" min="0"
                class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
         @error('sort_order')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
     </div>

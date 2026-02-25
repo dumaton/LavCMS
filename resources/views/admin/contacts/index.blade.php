@@ -8,9 +8,8 @@
     <table class="w-full">
         <thead class="bg-stone-50 border-b border-stone-200">
             <tr>
-                <th class="text-left px-4 py-3 text-sm font-medium text-stone-600">От кого</th>
                 <th class="text-left px-4 py-3 text-sm font-medium text-stone-600">Email</th>
-                <th class="text-left px-4 py-3 text-sm font-medium text-stone-600">Тема</th>
+                <th class="text-left px-4 py-3 text-sm font-medium text-stone-600">Компания / Телефон</th>
                 <th class="text-left px-4 py-3 text-sm font-medium text-stone-600">Получено</th>
                 <th class="text-left px-4 py-3 text-sm font-medium text-stone-600">Статус</th>
                 <th class="text-right px-4 py-3 text-sm font-medium text-stone-600">Действия</th>
@@ -19,9 +18,15 @@
         <tbody>
             @forelse($messages as $msg)
                 <tr class="border-b border-stone-100 hover:bg-stone-50/50">
-                    <td class="px-4 py-3 text-sm text-stone-800">{{ $msg->name }}</td>
-                    <td class="px-4 py-3 text-sm text-stone-600">{{ $msg->email }}</td>
-                    <td class="px-4 py-3 text-sm text-stone-700">{{ $msg->subject ?: 'Без темы' }}</td>
+                    <td class="px-4 py-3 text-sm text-stone-600"><a href="{{ route('admin.contacts.show', $msg) }}" class="text-stone-800 hover:text-amber-600 font-medium">{{ $msg->email }}</a></td>
+                    <td class="px-4 py-3 text-xs text-stone-600">
+                        @if($msg->company)
+                            <div>{{ $msg->company }}</div>
+                        @endif
+                        @if($msg->phone)
+                            <div class="text-stone-500">{{ $msg->phone }}</div>
+                        @endif
+                    </td>
                     <td class="px-4 py-3 text-xs text-stone-500">{{ $msg->created_at?->format('d.m.Y H:i') }}</td>
                     <td class="px-4 py-3 text-xs">
                         @if($msg->read_at)

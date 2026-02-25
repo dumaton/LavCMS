@@ -16,6 +16,7 @@
                 <th class="w-10 px-3 py-3 text-left text-sm font-medium text-stone-600"></th>
                 <th class="text-left px-4 py-3 text-sm font-medium text-stone-600">Название</th>
                 <th class="text-left px-4 py-3 text-sm font-medium text-stone-600">Ссылка</th>
+                <th class="text-left px-4 py-3 text-sm font-medium text-stone-600">Порядок</th>
                 <th class="text-left px-4 py-3 text-sm font-medium text-stone-600">Статус</th>
                 <th class="text-right px-4 py-3 text-sm font-medium text-stone-600">Действия</th>
             </tr>
@@ -26,8 +27,13 @@
                     <td class="px-3 py-3 text-stone-400 cursor-move js-handle text-center align-middle">
                         &#8942;
                     </td>
-                    <td class="px-4 py-3 font-medium text-stone-800"> <a href="{{ route('admin.menu.edit', $item) }}" class="text-stone-800 hover:text-amber-600 font-medium">{{ $item->title }}</a></td>
+                    <td class="px-4 py-3 font-medium text-stone-800">
+                        <a href="{{ route('admin.menu.edit', $item) }}" class="text-stone-800 hover:text-amber-600 font-medium">{{ $item->title }}</a>
+                    </td>
                     <td class="px-4 py-3 text-stone-600 text-sm max-w-xs truncate" title="{{ $item->url }}">{{ $item->url }}</td>
+                    <td class="px-4 py-3 text-sm text-stone-600 js-order">
+                        {{ $item->sort_order }}
+                    </td>
                     <td class="px-4 py-3">
                         @if($item->is_active)
                             <span class="text-emerald-600 text-sm">Вкл</span>
@@ -49,7 +55,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" class="px-4 py-8 text-center text-stone-500">Пунктов меню пока нет. Добавьте первый.</td>
+                    <td colspan="6" class="px-4 py-8 text-center text-stone-500">Пунктов меню пока нет. Добавьте первый.</td>
                 </tr>
             @endforelse
         </tbody>
@@ -69,8 +75,16 @@
             handle: '.js-handle',
             animation: 150,
             onEnd: () => {
-                const ids = Array.from(tbody.querySelectorAll('tr[data-id]'))
-                    .map(row => row.dataset.id);
+                const rows = Array.from(tbody.querySelectorAll('tr[data-id]'));
+
+                rows.forEach((row, index) => {
+                    const orderCell = row.querySelector('.js-order');
+                    if (orderCell) {
+                        orderCell.textContent = index;
+                    }
+                });
+
+                const ids = rows.map(row => row.dataset.id);
 
                 fetch('{{ route('admin.menu.reorder') }}', {
                     method: 'POST',

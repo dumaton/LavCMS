@@ -17,7 +17,9 @@ class MenuItemController extends Controller
 
     public function create()
     {
-        return view('admin.menu.create');
+        $nextSortOrder = (MenuItem::max('sort_order') ?? -1) + 1;
+
+        return view('admin.menu.create', compact('nextSortOrder'));
     }
 
     public function store(Request $request)

@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ProductCategoryController as AdminProductCategoryController;
+use App\Http\Controllers\Admin\BrandController as AdminBrandController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
@@ -19,11 +20,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/news', [NewsController::class, 'index'])->name('news.index');
-Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
+if (config('features.news_enabled')) {
+    Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+    Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
+}
 
-Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
-Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
+if (config('features.articles_enabled')) {
+    Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+    Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
+}
 
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
 Route::get('/catalog/category/{categorySlug}', [CatalogController::class, 'index'])->name('catalog.category');
@@ -40,8 +45,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::resource('news', AdminNewsController::class)->except(['show']);
-        Route::resource('articles', AdminArticleController::class)->except(['show']);
+        if (config('features.news_enabled')) {
+            Route::resource('news', AdminNewsController::class)->except(['show']);
+        }
+        if (config('features.articles_enabled')) {
+            Route::resource('articles', AdminArticleController::class)->except(['show']);
+        }
+        Route::resource('brands', AdminBrandController::class)->except(['show']);
+        Route::post('brands/reorder', [AdminBrandController::class, 'reorder'])->name('brands.reorder');
         Route::resource('products', AdminProductController::class)->except(['show']);
         Route::resource('product-categories', AdminProductCategoryController::class)->except(['show']);
         Route::resource('users', AdminUserController::class)->except(['show']);
