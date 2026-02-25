@@ -24,7 +24,8 @@ return new class extends Migration
             ['title' => 'Главная', 'url' => '/', 'sort_order' => 0, 'is_active' => true, 'open_new_tab' => false, 'created_at' => $now, 'updated_at' => $now],
             ['title' => 'Новости', 'url' => '/news', 'sort_order' => 1, 'is_active' => true, 'open_new_tab' => false, 'created_at' => $now, 'updated_at' => $now],
             ['title' => 'Статьи', 'url' => '/articles', 'sort_order' => 2, 'is_active' => true, 'open_new_tab' => false, 'created_at' => $now, 'updated_at' => $now],
-            ['title' => 'Контакты', 'url' => '/contact', 'sort_order' => 3, 'is_active' => true, 'open_new_tab' => false, 'created_at' => $now, 'updated_at' => $now],
+            ['title' => 'Каталог', 'url' => '/catalog', 'sort_order' => 3, 'is_active' => true, 'open_new_tab' => false, 'created_at' => $now, 'updated_at' => $now],
+            ['title' => 'Контакты', 'url' => '/contact', 'sort_order' => 4, 'is_active' => true, 'open_new_tab' => false, 'created_at' => $now, 'updated_at' => $now],
         ]);
     }
 

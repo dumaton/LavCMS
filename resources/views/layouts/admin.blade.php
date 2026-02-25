@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Админ') — LavCMS</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ asset('css/tailwind.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Manrope', sans-serif; }
@@ -47,6 +47,27 @@
                         <path d="M9 17h4" />
                     </svg>
                     <span>Статьи</span>
+                </a>
+
+                <a href="{{ route('admin.products.index') }}"
+                   class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.products.*') ? 'bg-stone-800 text-amber-400' : '' }}">
+                    <svg class="w-4 h-4 shrink-0 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="7" height="7" rx="1.5" />
+                        <rect x="14" y="4" width="7" height="7" rx="1.5" />
+                        <rect x="3" y="13" width="7" height="7" rx="1.5" />
+                        <rect x="14" y="13" width="7" height="7" rx="1.5" />
+                    </svg>
+                    <span>Каталог</span>
+                </a>
+
+                <a href="{{ route('admin.product-categories.index') }}"
+                   class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.product-categories.*') ? 'bg-stone-800 text-amber-400' : '' }}">
+                    <svg class="w-4 h-4 shrink-0 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 6h16" />
+                        <path d="M4 12h10" />
+                        <path d="M4 18h7" />
+                    </svg>
+                    <span>Разделы каталога</span>
                 </a>
 
                 <a href="{{ route('admin.contacts.index') }}"

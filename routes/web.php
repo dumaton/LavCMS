@@ -3,11 +3,14 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\ProductCategoryController as AdminProductCategoryController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
@@ -22,6 +25,10 @@ Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.sho
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
 
+Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
+Route::get('/catalog/category/{categorySlug}', [CatalogController::class, 'index'])->name('catalog.category');
+Route::get('/catalog/product/{product:slug}', [CatalogController::class, 'show'])->name('catalog.show');
+
 Route::get('/contact', [ContactController::class, 'showForm'])->name('contact.show');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
@@ -35,6 +42,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::resource('news', AdminNewsController::class)->except(['show']);
         Route::resource('articles', AdminArticleController::class)->except(['show']);
+        Route::resource('products', AdminProductController::class)->except(['show']);
+        Route::resource('product-categories', AdminProductCategoryController::class)->except(['show']);
         Route::resource('users', AdminUserController::class)->except(['show']);
 
         Route::get('settings', [AdminSettingController::class, 'edit'])->name('settings.edit');
