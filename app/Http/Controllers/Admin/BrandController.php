@@ -18,7 +18,7 @@ class BrandController extends Controller
 
     public function create()
     {
-        $nextSortOrder = (Brand::max('sort_order') ?? -1) + 1;
+        $nextSortOrder = (Brand::max('sort_order') ?? 0) + 1;
 
         return view('admin.brands.create', compact('nextSortOrder'));
     }
@@ -27,12 +27,12 @@ class BrandController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
+            'sort_order' => ['nullable', 'integer', 'min:1'],
             'is_active' => ['boolean'],
             'image' => ['nullable', 'image', 'max:4096'],
         ]);
 
-        $data['sort_order'] = $data['sort_order'] ?? (Brand::max('sort_order') ?? -1) + 1;
+        $data['sort_order'] = $data['sort_order'] ?? (Brand::max('sort_order') ?? 0) + 1;
         $data['is_active'] = $request->boolean('is_active', true);
 
         if ($request->hasFile('image')) {
@@ -57,7 +57,7 @@ class BrandController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
+            'sort_order' => ['nullable', 'integer', 'min:1'],
             'is_active' => ['boolean'],
             'image' => ['nullable', 'image', 'max:4096'],
         ]);
@@ -196,7 +196,7 @@ class BrandController extends Controller
         ]);
 
         foreach ($data['order'] as $index => $id) {
-            Brand::whereKey($id)->update(['sort_order' => $index]);
+            Brand::whereKey($id)->update(['sort_order' => $index + 1]);
         }
 
         return response()->json(['status' => 'ok']);

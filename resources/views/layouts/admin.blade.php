@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Админ') — LavCMS</title>
+    <title>@yield('title', 'Админ') — ХимТехПром</title>
     <link rel="stylesheet" href="{{ asset('css/tailwind.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -15,7 +15,7 @@
     <div class="flex min-h-screen">
         <aside class="w-56 bg-stone-900 text-stone-100 flex flex-col fixed h-full">
             <div class="p-4 border-b border-stone-700">
-                <a href="{{ route('admin.dashboard') }}" class="font-mono text-lg font-semibold">LavCMS</a>
+                <a href="{{ route('admin.dashboard') }}" class="font-mono text-lg font-semibold">ХимТехПром</a>
                 <p class="text-xs text-stone-400 mt-1">Админ-панель</p>
             </div>
             <nav class="flex-1 p-3 space-y-1">
@@ -77,7 +77,8 @@
                 <a href="{{ route('admin.brands.index') }}"
                    class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.brands.*') ? 'bg-stone-800 text-amber-400' : '' }}">
                     <svg class="w-4 h-4 shrink-0 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 7h18M3 12h18M3 17h18" />
+                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+                        <line x1="7" y1="7" x2="7.01" y2="7" />
                     </svg>
                     <span>Бренды</span>
                 </a>
@@ -139,6 +140,7 @@
             </main>
         </div>
     </div>
+    <script src="{{ asset('js/ckeditor-translations-ru.js') }}"></script>
     <script src="{{ asset('js/ckeditor.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -159,8 +161,8 @@
 
             editors.forEach((el) => {
                 ctor.create(el, {
-                    // Используем бесплатную GPL-лицензию.
                     licenseKey: 'GPL',
+                    language: 'ru',
                 }).catch((err) => {
                     console.error('Ошибка инициализации CKEditor:', err);
                 });

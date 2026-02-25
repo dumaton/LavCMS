@@ -80,7 +80,7 @@
                 rows.forEach((row, index) => {
                     const orderCell = row.querySelector('.js-order');
                     if (orderCell) {
-                        orderCell.textContent = index;
+                        orderCell.textContent = index + 1;
                     }
                 });
 

@@ -16,11 +16,13 @@ class Product extends Model
         'price',
         'main_image',
         'is_published',
+        'in_stock',
     ];
 
     protected $casts = [
-        'price' => 'decimal:2',
+        'price' => 'integer',
         'is_published' => 'boolean',
+        'in_stock' => 'boolean',
     ];
 
     public function category(): BelongsTo

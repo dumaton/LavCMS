@@ -23,7 +23,7 @@
     </div>
     <div>
         <label for="sort_order" class="block text-sm font-medium text-stone-700 mb-1">Порядок</label>
-        <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', $nextSortOrder ?? 0) }}" min="0"
+        <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', $nextSortOrder ?? 1) }}" min="1"
                class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
         @error('sort_order')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
     </div>

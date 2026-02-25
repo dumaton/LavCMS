@@ -21,7 +21,24 @@ class HomeController extends Controller
             ->get();
 
         $settings = Setting::query()
-            ->whereIn('key', ['site_name', 'home_title', 'home_description'])
+            ->whereIn('key', [
+                'home_title',
+                'home_description',
+                'keywords',
+                'hero_badge',
+                'hero_title',
+                'hero_subtitle',
+                'hero_description',
+                'about_badge',
+                'about_title',
+                'about_text',
+                'phone_mobile',
+                'phone_city',
+                'contact_email',
+                'contact_address',
+                'contact_legal_address',
+                'contact_hours',
+            ])
             ->pluck('value', 'key');
 
         return view('home', compact('news', 'articles', 'brands', 'settings'));

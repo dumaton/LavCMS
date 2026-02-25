@@ -17,6 +17,16 @@
     </div>
 
     <div>
+        <label class="block text-sm font-medium text-stone-700 mb-1">URL</label>
+        <input type="text" name="slug" value="{{ old('slug') }}" placeholder=""
+               class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500 font-mono text-sm">
+        <p class="text-xs text-stone-500 mt-1">Оставьте пустым — сгенерируется из названия. Часть URL товара. Только латиница, цифры и дефис.</p>
+        @error('slug')
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <div>
         <label class="block text-sm font-medium text-stone-700 mb-1">Раздел</label>
         @if($categories->isEmpty())
             <p class="text-sm text-stone-500">Разделы ещё не созданы. Товар можно сохранить без привязки к разделу.</p>
@@ -47,19 +57,27 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
-            <label class="block text-sm font-medium text-stone-700 mb-1">Цена, ₽ *</label>
-            <input type="number" name="price" step="0.01" min="0"
-                   value="{{ old('price', '0.00') }}"
+            <label class="block text-sm font-medium text-stone-700 mb-1">Цена, ₽</label>
+            <input type="number" name="price" step="1" min="0"
+                   value="{{ old('price') }}"
                    class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
             @error('price')
                 <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
             @enderror
         </div>
-        <div class="flex items-center gap-2 mt-6 sm:mt-0">
-            <input type="checkbox" name="is_published" id="is_published" value="1"
-                   class="rounded border-stone-300 text-amber-600 focus:ring-amber-500"
-                   @checked(old('is_published', true))>
-            <label for="is_published" class="text-sm text-stone-700">Опубликовано</label>
+        <div class="flex flex-wrap items-center gap-6 mt-6 sm:mt-0">
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" name="is_published" value="1"
+                       class="rounded border-stone-300 text-amber-600 focus:ring-amber-500"
+                       @checked(old('is_published', true))>
+                <span class="text-sm text-stone-700">Опубликовано</span>
+            </label>
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" name="in_stock" value="1"
+                       class="rounded border-stone-300 text-amber-600 focus:ring-amber-500"
+                       @checked(old('in_stock', true))>
+                <span class="text-sm text-stone-700">В наличии</span>
+            </label>
         </div>
     </div>
 

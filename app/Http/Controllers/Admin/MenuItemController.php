@@ -17,7 +17,7 @@ class MenuItemController extends Controller
 
     public function create()
     {
-        $nextSortOrder = (MenuItem::max('sort_order') ?? -1) + 1;
+        $nextSortOrder = (MenuItem::max('sort_order') ?? 0) + 1;
 
         return view('admin.menu.create', compact('nextSortOrder'));
     }
@@ -27,12 +27,13 @@ class MenuItemController extends Controller
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'url' => ['required', 'string', 'max:500'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
+            'sort_order' => ['nullable', 'integer', 'min:1'],
             'is_active' => ['boolean'],
             'open_new_tab' => ['boolean'],
         ]);
 
-        $data['sort_order'] = (int) ($data['sort_order'] ?? MenuItem::max('sort_order') + 1);
+        $nextSortOrder = (MenuItem::max('sort_order') ?? 0) + 1;
+        $data['sort_order'] = (int) ($data['sort_order'] ?? $nextSortOrder);
         $data['is_active'] = $request->boolean('is_active');
         $data['open_new_tab'] = $request->boolean('open_new_tab');
 
@@ -53,7 +54,7 @@ class MenuItemController extends Controller
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'url' => ['required', 'string', 'max:500'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
+            'sort_order' => ['nullable', 'integer', 'min:1'],
             'is_active' => ['boolean'],
             'open_new_tab' => ['boolean'],
         ]);
@@ -86,7 +87,7 @@ class MenuItemController extends Controller
         ]);
 
         foreach ($data['order'] as $index => $id) {
-            MenuItem::whereKey($id)->update(['sort_order' => $index]);
+            MenuItem::whereKey($id)->update(['sort_order' => $index + 1]);
         }
 
         return response()->json(['status' => 'ok']);

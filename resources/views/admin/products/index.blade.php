@@ -13,6 +13,7 @@
     <table class="w-full">
         <thead class="bg-stone-50 border-b border-stone-200">
             <tr>
+                <th class="w-20 text-left px-4 py-3 text-sm font-medium text-stone-600">Фото</th>
                 <th class="text-left px-4 py-3 text-sm font-medium text-stone-600">Название</th>
                 <th class="text-left px-4 py-3 text-sm font-medium text-stone-600">Раздел</th>
                 <th class="text-left px-4 py-3 text-sm font-medium text-stone-600">Цена</th>
@@ -23,6 +24,13 @@
         <tbody>
             @forelse($products as $product)
                 <tr class="border-b border-stone-100 hover:bg-stone-50/50">
+                    <td class="px-4 py-3">
+                        @if($product->main_image)
+                            <img src="{{ asset('storage/' . $product->main_image) }}" alt="{{ $product->name }}" width="50" height="50" class="object-cover rounded">
+                        @else
+                            <span class="text-xs text-stone-400">Нет фото</span>
+                        @endif
+                    </td>
                     <td class="px-4 py-3">
                         <a href="{{ route('admin.products.edit', $product) }}" class="text-stone-800 hover:text-amber-600 font-medium">
                             {{ \Illuminate\Support\Str::limit($product->name, 60) }}
@@ -52,7 +60,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" class="px-4 py-8 text-center text-stone-500">
+                    <td colspan="6" class="px-4 py-8 text-center text-stone-500">
                         Товаров пока нет. Добавьте первый.
                     </td>
                 </tr>

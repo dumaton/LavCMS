@@ -10,7 +10,7 @@ class CatalogController extends Controller
 {
     public function index(Request $request, ?string $categorySlug = null)
     {
-        $categories = ProductCategory::orderBy('name')->get();
+        $categories = ProductCategory::active()->ordered()->get();
         $activeCategory = null;
 
         $query = Product::with(['category'])
@@ -18,7 +18,9 @@ class CatalogController extends Controller
             ->latest('created_at');
 
         if ($categorySlug) {
-            $activeCategory = ProductCategory::where('slug', $categorySlug)->firstOrFail();
+            $activeCategory = ProductCategory::active()
+                ->where('slug', $categorySlug)
+                ->firstOrFail();
             $query->where('product_category_id', $activeCategory->id);
         }
 

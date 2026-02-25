@@ -2,13 +2,30 @@
 
 @php
     /** @var \Illuminate\Support\Collection|\array_access|null $settings */
-    $siteName = $settings['site_name'] ?? 'ООО «Химтехпром»';
     $homeTitle = $settings['home_title'] ?? 'ХимТехПром - промышленное оборудование и химия под заказ';
     $homeDescription = $settings['home_description'] ?? 'Комплексные поставки промышленного оборудования, промышленной химии, инструмента и расходных материалов от ведущих мировых производителей.';
+    $keywords = $settings['keywords'] ?? '';
+    $heroBadge = $settings['hero_badge'] ?? 'Надежный поставщик';
+    $heroTitle = $settings['hero_title'] ?? 'Промышленное оборудование и химия';
+    $heroSubtitle = $settings['hero_subtitle'] ?? 'для вашего производства';
+    $heroDescription = $settings['hero_description'] ?? 'Комплексные поставки промышленного оборудования, промышленной химии, инструмента и расходных материалов от ведущих мировых производителей. Индивидуальный подход к каждому клиенту.';
+    $aboutBadge = $settings['about_badge'] ?? 'О компании';
+    $aboutTitle = $settings['about_title'] ?? 'Комплексный поставщик промышленного оборудования и промышленной химии';
+    $aboutText = $settings['about_text'] ?? 'ООО «Химтехпром» — динамично развивающаяся компания, специализирующаяся на поставках:<br>
+- промышленного оборудования, инструмента и расходных материалов для предприятий нефтегазовой, химической промышленности;<br>
+- промышленной химии для нефтеперерабатывающих, химических, лакокрасочных, пищевых отраслей.<br>
+Рассмотрим все запросы и постараемся учесть все потребности покупателя. Мы ценим каждого клиента и стремимся к долгосрочным отношениям.';
+    $phoneMobile = $settings['phone_mobile'] ?? '+7 (917) 436-00-01';
+    $phoneCity = $settings['phone_city'] ?? '+7 (347) 215-17-57';
+    $contactEmail = $settings['contact_email'] ?? 'ooohtp@mail.ru';
+    $contactAddress = $settings['contact_address'] ?? 'г. Уфа, ул. Гоголя, 60/1';
+    $contactLegalAddress = $settings['contact_legal_address'] ?? '';
+    $contactHours = $settings['contact_hours'] ?? "Пн-Пт: 9:00-18:00\nСб-Вс: выходной";
 @endphp
 
 @section('title', $homeTitle)
 @section('meta_description', $homeDescription)
+@section('meta_keywords', $keywords)
 
 @section('content')
     {{-- HERO / INTRO из v2 --}}
@@ -22,14 +39,14 @@
             <div class="flex flex-col gap-8 max-w-3xl">
                 <div class="inline-flex w-fit items-center gap-2 rounded-sm border border-[#2c5282]/40 bg-[#1a2b4c]/60 px-4 py-2 backdrop-blur-sm">
                     <div class="h-2 w-2 rounded-full bg-[#3b82f6] animate-pulse"></div>
-                    <span class="text-xs font-medium tracking-widest text-[#8b9ab5] uppercase">Надежный поставщик</span>
+                    <span class="text-xs font-medium tracking-widest text-[#8b9ab5] uppercase">{{ $heroBadge }}</span>
                 </div>
                 <h1 class="font-serif text-4xl font-bold leading-tight text-[#f8f9fb] md:text-5xl lg:text-6xl text-balance">
-                    Промышленное оборудование и химия
-                    <span class="text-[#5a9cf5]">для вашего производства</span>
+                    {{ $heroTitle }}
+                    <span class="text-[#5a9cf5]">{{ $heroSubtitle }}</span>
                 </h1>
                 <p class="text-lg leading-relaxed text-[#8b9ab5] max-w-xl text-pretty">
-                    {{ $homeDescription }}
+                    {{ $heroDescription }}
                 </p>
                 <div class="flex flex-wrap items-center gap-4">
                     <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 has-[>svg]:px-4 bg-[#2c5282] text-[#f8f9fb] hover:bg-[#3b6db5] rounded-sm px-8 text-sm tracking-wide uppercase" href="#contacts">
@@ -49,16 +66,11 @@
     <section id="about" class="py-24 bg-background">
         <div class="mx-auto max-w-7xl px-6">
             <div class="flex flex-col gap-4 max-w-2xl mb-16">
-                <span class="text-xs font-medium tracking-widest text-[#2c5282] uppercase">О компании</span>
+                <span class="text-xs font-medium tracking-widest text-[#2c5282] uppercase">{{ $aboutBadge }}</span>
                 <h2 class="font-serif text-3xl font-bold text-foreground md:text-4xl text-balance">
-                    Комплексный поставщик промышленного оборудования и промышленной химии
+                    {{ $aboutTitle }}
                 </h2>
-                <p class="text-base leading-relaxed text-muted-foreground text-pretty">
-                    ООО «Химтехпром» — динамично развивающаяся компания, специализирующаяся на поставках:<br>
-                    - промышленного оборудования, инструмента и расходных материалов для предприятий нефтегазовой, химической промышленности;<br>
-                    - промышленной химии для нефтеперерабатывающих, химических, лакокрасочных, пищевых отраслей.<br>
-                    Рассмотрим все запросы и постараемся учесть все потребности покупателя. Мы ценим каждого клиента и стремимся к долгосрочным отношениям.
-                </p>
+                <p class="text-base leading-relaxed text-muted-foreground text-pretty">{!! $aboutText !!}</p>
             </div>
             <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 <div class="group flex flex-col gap-4 rounded-sm border border-border bg-card p-6 transition-all hover:border-[#2c5282]/40 hover:shadow-lg hover:shadow-[#2c5282]/5">
@@ -261,6 +273,76 @@
                     </div>
                 </div>
             </div>
+
+            {{-- ПРОМЫШЛЕННАЯ ХИМИЯ из v2 --}}
+            <div class="flex flex-col items-center gap-4 text-center mb-16">
+                <h2 class="font-serif text-3xl font-bold text-foreground md:text-4xl text-balance">Промышленная химия</h2>
+                <p class="max-w-xl text-base leading-relaxed text-muted-foreground text-pretty">
+                    Наличие на складе продукции уточняйте
+                </p>
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div class="group relative flex flex-col gap-4 rounded-sm border border-border bg-card p-8 transition-all hover:border-[#2c5282]/40 hover:shadow-lg hover:shadow-[#2c5282]/5">
+                    <div class="flex items-center justify-between">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-sm bg-[#2c5282]/10 text-[#2c5282] transition-colors group-hover:bg-[#2c5282] group-hover:text-[#f8f9fb]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gauge h-6 w-6" aria-hidden="true"><path fill="currentColor" d="M411 68.31v.7c0 25.9-53.6 46.99-155 46.99c-106.5 0-155-21.09-155-46.99v-1.2c0-15 16.7-26.9 49.7-35.3c28.2-7.2 65.6-11.1 105.3-11.1c39.6 0 77 3.9 105.3 11.1c33 8.4 49.7 20.3 49.7 35.3zm-177-.5c0-4.2-13.2-7.5-29.4-7.5c-16.3 0-29.5 3.3-29.5 7.5c0 4.1 13.2 7.5 29.5 7.5c16.2 0 29.4-3.4 29.4-7.5m167.6 97.89v-60.2c-8.7 6.6-21.9 12.2-39.6 16.7c-28.5 7.3-66.1 11.2-106 11.2s-77.5-4-106-11.2c-17.7-4.5-30.9-10-39.6-16.7v60.2c-6.3 5.3-9.4 11.2-9.4 17.7v1.1c0 25.9 48.5 46.9 155 46.9c101.4 0 155-21 155-46.9v-1.1c0-6.5-3.1-12.4-9.4-17.7m0 128.9v-73.5c-8.7 6.6-21.9 12.2-39.6 16.7c-28.5 7.2-66.1 11.2-106 11.2s-77.5-4-106-11.2c-17.7-4.5-30.9-10.1-39.6-16.7v73.5c-6.3 5.3-9.4 11.2-9.4 17.7v.9c0 25.9 48.5 46.9 155 46.9c101.4 0 155-21 155-46.9v-.9c0-6.6-3.1-12.5-9.4-17.7m8.9 145.4c-1.1-4.9-4-9.4-8.9-13.5V350c-8.7 6.6-21.9 12.2-39.6 16.7c-28.5 7.2-66.1 11.2-106 11.2s-77.5-4-106-11.2c-17.7-4.5-30.9-10.1-39.6-16.7v76.5c-4.9 4.1-7.8 8.6-8.9 13.5c-.3 1.2-.5 2.5-.5 3.7v.5c0 5.7 2.3 10.9 7 15.6c17 18 64.8 30.8 148 30.8c60.2 0 103.6-7.4 128.9-18.9c17.3-7.5 26.1-16.6 26.1-27.5v-.5c0-1.2-.2-2.5-.5-3.7"/></svg>
+                        </div>
+                        <span class="text-xs font-medium text-muted-foreground tracking-wide">
+                            800+ позиций
+                        </span>
+                    </div>
+                    <h3 class="font-serif text-lg font-semibold text-card-foreground">Химия для нефтеперерабатывающих предприятий</h3>
+                    <p class="text-sm leading-relaxed text-muted-foreground">
+                        Сульфанол, ингибиторы коррозии.
+                    </p>
+                    <div class="mt-auto pt-4 border-t border-border">
+                        <span class="text-xs font-medium text-[#2c5282] tracking-wide uppercase cursor-pointer hover:text-[#3b6db5] transition-colors">
+                            Подробнее →
+                        </span>
+                    </div>
+                </div>
+
+                <div class="group relative flex flex-col gap-4 rounded-sm border border-border bg-card p-8 transition-all hover:border-[#2c5282]/40 hover:shadow-lg hover:shadow-[#2c5282]/5">
+                    <div class="flex items-center justify-between">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-sm bg-[#2c5282]/10 text-[#2c5282] transition-colors group-hover:bg-[#2c5282] group-hover:text-[#f8f9fb]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gauge h-6 w-6" aria-hidden="true"><path fill="currentColor" d="M20.02 20.02c-1.415 1.414-2.87 4.939-1.404 12.857c1.467 7.919 5.948 19.18 14.07 32.718l.075.124l.07.126c36.072 64.774 100.54 100.053 156.894 156.407c3.535 3.535 4.692 8.141 4.86 12.202c.168 4.06-.524 8.036-1.648 12.226c-2.248 8.38-6.392 17.635-11.551 27.216c-8.686 16.13-20.094 32.615-30.883 44.898l10.23 10.231l168.292-168.291l-10.231-10.231c-12.283 10.789-28.768 22.197-44.899 30.883c-9.58 5.159-18.835 9.303-27.215 11.551c-4.19 1.124-8.166 1.816-12.226 1.648s-8.667-1.325-12.202-4.86c-53.66-53.66-81.946-115.656-156.388-156.882l-.137-.076l-.132-.08c-13.537-8.123-24.8-12.605-32.718-14.07c-7.918-1.467-11.443-.012-12.858 1.402zm27.576 27.576A32 16 45 0 1 81.538 58.91A32 16 45 0 1 92.85 92.851a32 16 45 0 1-33.94-11.313a32 16 45 0 1-11.315-33.942zm125.865 294.157l9.9 9.9L351.652 183.36l-9.9-9.9zm22.628 22.627l9.9 9.9l168.29-168.292l-9.899-9.9zm22.53 22.724c21.7 21.843 56.445 58.776 71.301 106.89l18.939-18.938c.264-11.26-.095-21.74-1.047-31.48c5.234 4.6 10.043 11.404 14.27 18.257l25.795-25.795c-4.578-9.167-10.801-17.054-16.325-25.486c8.741 5.196 17.668 10.207 25.477 16.334l40.646-40.646c-6.681-2.406-12.95-6.323-19.066-10.804c9.83 1.596 20.11.934 30.588-.718l25.66-25.66c-3.612-10.324-7.613-20.26-13.055-28.756c11.272 2.37 19.41 8.292 27.163 14.648l19.88-19.88c-3.56-2.767-6.356-6.46-9.117-14.082c6.663 3.66 13.225 3.978 19.931 3.268l14.336-14.336c-48.115-14.856-85.048-49.601-106.89-71.3z"/></svg>
+                        </div>
+                        <span class="text-xs font-medium text-muted-foreground tracking-wide">
+                            650+ позиций
+                        </span>
+                    </div>
+                    <h3 class="font-serif text-lg font-semibold text-card-foreground">Химия для лакокрасочных предприятий</h3>
+                    <p class="text-sm leading-relaxed text-muted-foreground">
+                        Органобентонит, сурик свинцовый.
+                    </p>
+                    <div class="mt-auto pt-4 border-t border-border">
+                        <span class="text-xs font-medium text-[#2c5282] tracking-wide uppercase cursor-pointer hover:text-[#3b6db5] transition-colors">
+                            Подробнее →
+                        </span>
+                    </div>
+                </div>
+
+                <div class="group relative flex flex-col gap-4 rounded-sm border border-border bg-card p-8 transition-all hover:border-[#2c5282]/40 hover:shadow-lg hover:shadow-[#2c5282]/5">
+                    <div class="flex items-center justify-between">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-sm bg-[#2c5282]/10 text-[#2c5282] transition-colors group-hover:bg-[#2c5282] group-hover:text-[#f8f9fb]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gauge h-6 w-6" aria-hidden="true"><path fill="currentColor" d="M18.25 3.25a.75.75 0 0 1 .743.648L19 4v16a.75.75 0 0 1-1.493.102L17.5 20v-5h-2.25a.75.75 0 0 1-.743-.648l-.007-.102V7a3.75 3.75 0 0 1 3.75-3.75m-6 0a.75.75 0 0 1 .743.648L13 4v4c0 1.953-1.4 3.578-3.25 3.93V20a.75.75 0 0 1-1.493.102L8.25 20v-8.07a4 4 0 0 1-3.245-3.722L5 8V4a.75.75 0 0 1 1.493-.102L6.5 4v4c0 1.12.736 2.067 1.75 2.386V4a.75.75 0 0 1 1.493-.102L9.75 4v6.385a2.5 2.5 0 0 0 1.743-2.2L11.5 8V4a.75.75 0 0 1 .75-.75M17.5 13.5V4.878a2.25 2.25 0 0 0-1.494 1.95L16 7v6.5zV4.878z"/></svg>
+                        </div>
+                        <span class="text-xs font-medium text-muted-foreground tracking-wide">
+                            400+ позиций
+                        </span>
+                    </div>
+                    <h3 class="font-serif text-lg font-semibold text-card-foreground">Химия для пищевой промышленности</h3>
+                    <p class="text-sm leading-relaxed text-muted-foreground">
+                        Лимонная кислота, лецитин, соль пищевая и техническая.
+                    </p>
+                    <div class="mt-auto pt-4 border-t border-border">
+                        <span class="text-xs font-medium text-[#2c5282] tracking-wide uppercase cursor-pointer hover:text-[#3b6db5] transition-colors">
+                            Подробнее →
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -290,8 +372,8 @@
                                        class="file:text-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 h-9 w-full min-w-0 border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive rounded-sm border-[#d1d5db] bg-[#f8f9fb] text-[#1a2b4c] placeholder:text-[#8b9ab5] focus-visible:ring-[#2c5282]" required>
                             </div>
                             <div class="flex flex-col gap-1.5">
-                                <label for="company" class="text-xs font-medium text-[#5a6a85] tracking-wide uppercase">Компания</label>
-                                <input id="company" name="company" type="text" placeholder="ООО «Компания»" value="{{ old('company') }}"
+                                <label for="company" class="text-xs font-medium text-[#5a6a85] tracking-wide uppercase">Компания *</label>
+                                <input id="company" name="company" type="text" placeholder="ООО «Компания»" value="{{ old('company') }}" required
                                        class="file:text-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 h-9 w-full min-w-0 border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive rounded-sm border-[#d1d5db] bg-[#f8f9fb] text-[#1a2b4c] placeholder:text-[#8b9ab5] focus-visible:ring-[#2c5282]">
                             </div>
                         </div>
@@ -346,8 +428,8 @@
                             </div>
                             <div>
                                 <p class="text-[10px] font-medium tracking-widest text-[#8b9ab5] uppercase">Телефон</p>
-                                <p class="text-sm font-semibold text-[#1a2b4c]">+7 (917) 436-00-01</p>
-                                <p class="text-sm font-semibold text-[#1a2b4c]">+7 (347) 215-17-57</p>
+                                <p class="text-sm font-semibold text-[#1a2b4c]">{{ $phoneMobile }}</p>
+                                <p class="text-sm font-semibold text-[#1a2b4c]">{{ $phoneCity }}</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-3 rounded-sm border border-[#d1d5db] bg-[#ffffff] p-4">
@@ -359,8 +441,7 @@
                             </div>
                             <div>
                                 <p class="text-[10px] font-medium tracking-widest text-[#8b9ab5] uppercase">E-mail</p>
-                                <p class="text-sm font-semibold text-[#1a2b4c]">ooohtp@mail.ru</p>
-                                <p class="text-xs text-[#5a6a85]">Ответ в течение 2ч</p>
+                                <p class="text-sm font-semibold text-[#1a2b4c]">{{ $contactEmail }}</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-3 rounded-sm border border-[#d1d5db] bg-[#ffffff] p-4">
@@ -372,8 +453,7 @@
                             </div>
                             <div>
                                 <p class="text-[10px] font-medium tracking-widest text-[#8b9ab5] uppercase">Адрес</p>
-                                <p class="text-sm font-semibold text-[#1a2b4c]">г. Уфа</p>
-                                <p class="text-xs text-[#5a6a85]">ул. Гоголя, 60/1</p>
+                                <p class="text-sm font-semibold text-[#1a2b4c]">{{ $contactAddress }}</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-3 rounded-sm border border-[#d1d5db] bg-[#ffffff] p-4">
@@ -385,8 +465,7 @@
                             </div>
                             <div>
                                 <p class="text-[10px] font-medium tracking-widest text-[#8b9ab5] uppercase">Режим работы</p>
-                                <p class="text-sm font-semibold text-[#1a2b4c]">Пн-Пт: 9:00-18:00</p>
-                                <p class="text-xs text-[#5a6a85]">Сб-Вс: выходной</p>
+                                <p class="text-sm font-semibold text-[#1a2b4c]">{!! nl2br(e($contactHours)) !!}</p>
                             </div>
                         </div>
                     </div>

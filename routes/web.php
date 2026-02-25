@@ -55,6 +55,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('brands/reorder', [AdminBrandController::class, 'reorder'])->name('brands.reorder');
         Route::resource('products', AdminProductController::class)->except(['show']);
         Route::resource('product-categories', AdminProductCategoryController::class)->except(['show']);
+        Route::post('product-categories/reorder', [AdminProductCategoryController::class, 'reorder'])->name('product-categories.reorder');
         Route::resource('users', AdminUserController::class)->except(['show']);
 
         Route::get('settings', [AdminSettingController::class, 'edit'])->name('settings.edit');

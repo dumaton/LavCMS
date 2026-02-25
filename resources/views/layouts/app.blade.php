@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'ХимТехПром - промышленное оборудование и химия под заказ')</title>
     <meta name="description" content="@yield('meta_description', 'Комплексные поставки промышленного оборудования, промышленной химии, инструмента и расходных материалов от ведущих мировых производителей.')">
+    @hasSection('meta_keywords')
+    <meta name="keywords" content="@yield('meta_keywords')">
+    @endif
     <link rel="stylesheet" href="{{ asset('v2/styles.css') }}" data-precedence="styles.css">
     <link rel="icon" href="/icon.png" type="image/png">
     <style>
@@ -15,9 +18,31 @@
       @media (min-width: 1024px) {
         #mobile-menu { display: none !important; }
       }
+      /* Пункты меню в шапке: цвет и заметная смена при наведении (не зависят от Tailwind-сборки) */
+      #site-header .header-menu-link {
+        color: #44403c;
+        transition: color 0.2s ease;
+      }
+      #site-header .header-menu-link:hover {
+        color: #1e40af;
+      }
     </style>
   </head>
   <body class="font-sans antialiased">
+    @php
+      $mainMenuItems = \App\Models\MenuItem::active()->ordered()->get();
+      $phoneMobile = \App\Models\Setting::get('phone_mobile', '+7 (917) 436-00-01');
+      $phoneCity = \App\Models\Setting::get('phone_city', '+7 (347) 215-17-57');
+      $contactEmail = \App\Models\Setting::get('contact_email', 'ooohtp@mail.ru');
+      $contactAddress = \App\Models\Setting::get('contact_address', 'г. Уфа, ул. Гоголя, 60/1');
+      $contactLegalAddress = \App\Models\Setting::get('contact_legal_address');
+      $contactHours = \App\Models\Setting::get('contact_hours');
+      $requisitesCompany = \App\Models\Setting::get('requisites_company', 'ООО «Химтехпром»');
+      $requisitesInn = \App\Models\Setting::get('requisites_inn');
+      $requisitesKpp = \App\Models\Setting::get('requisites_kpp');
+      $requisitesOgrn = \App\Models\Setting::get('requisites_ogrn');
+      $requisitesBank = \App\Models\Setting::get('requisites_bank');
+    @endphp
     <header
       id="site-header"
       class="sticky top-0 left-0 right-0 z-50 bg-white backdrop-blur-md border-b border-gray-200 shadow-sm relative"
@@ -39,16 +64,21 @@
           <span class="text-[10px] tracking-[0.25em] text-[#8b9ab5] uppercase">Промышленное оборудование</span>
         </div>
         <nav class="hidden items-center gap-6 lg:flex" aria-label="Основное меню">
-          <a class="text-sm font-medium text-gray-700 transition-colors hover:text-[#2c5282] tracking-wide uppercase" href="#about">О компании</a>
-          <a class="text-sm font-medium text-gray-700 transition-colors hover:text-[#2c5282] tracking-wide uppercase" href="#brands">Бренды</a>
-          <a class="text-sm font-medium text-gray-700 transition-colors hover:text-[#2c5282] tracking-wide uppercase" href="#products">Продукция</a>
-          <a class="text-sm font-medium text-gray-700 transition-colors hover:text-[#2c5282] tracking-wide uppercase" href="#contacts">Контакты</a>
-          <a href="tel:+79174360001" class="flex items-center gap-1.5 text-sm text-gray-600 transition-colors hover:text-[#1a2b4c]">
+          @foreach($mainMenuItems as $item)
+            <a
+              class="header-menu-link text-sm font-medium tracking-wide uppercase"
+              href="{{ $item->url }}"
+              @if($item->open_new_tab) target="_blank" rel="noopener" @endif
+            >
+              {{ $item->title }}
+            </a>
+          @endforeach
+          <a href="tel:{{ $phoneMobile }}" class="flex items-center gap-1.5 text-sm text-gray-600 transition-colors hover:text-[#1a2b4c]">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
-            <span>+7 (917) 436-00-01</span>
+            <span>{{ $phoneMobile }}</span>
           </a>
-          <a href="tel:+73472151757" class="flex items-center gap-1.5 text-sm text-gray-600 transition-colors hover:text-[#1a2b4c]">
-            <span>+7 (347) 215-17-57</span>
+          <a href="tel:{{ $phoneCity }}" class="flex items-center gap-1.5 text-sm text-gray-600 transition-colors hover:text-[#1a2b4c]">
+            <span>{{ $phoneCity }}</span>
           </a>
           <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-9 py-2 has-[>svg]:px-3 bg-[#2c5282] text-[#f8f9fb] hover:bg-[#3b6db5] rounded-sm px-6" href="#contacts">Запросить КП</a>
         </nav>
@@ -82,17 +112,22 @@
         aria-label="Мобильное меню"
       >
         <nav class="flex flex-col gap-0 p-4" aria-label="Основное меню">
-          <a class="mobile-menu-link py-3 px-4 text-base font-medium text-gray-700 hover:text-[#2c5282] hover:bg-gray-100 rounded-sm uppercase tracking-wide" href="#about">О компании</a>
-          <a class="mobile-menu-link py-3 px-4 text-base font-medium text-gray-700 hover:text-[#2c5282] hover:bg-gray-100 rounded-sm uppercase tracking-wide" href="#brands">Бренды</a>
-          <a class="mobile-menu-link py-3 px-4 text-base font-medium text-gray-700 hover:text-[#2c5282] hover:bg-gray-100 rounded-sm uppercase tracking-wide" href="#products">Продукция</a>
-          <a class="mobile-menu-link py-3 px-4 text-base font-medium text-gray-700 hover:text-[#2c5282] hover:bg-gray-100 rounded-sm uppercase tracking-wide" href="#contacts">Контакты</a>
-          <a class="mobile-menu-link flex items-center gap-2 py-3 px-4 text-base text-gray-600 hover:text-[#1a2b4c] hover:bg-gray-100 rounded-sm" href="tel:+79174360001">
+          @foreach($mainMenuItems as $item)
+            <a
+              class="mobile-menu-link py-3 px-4 text-base font-medium text-gray-700 hover:text-[#2c5282] hover:bg-gray-100 rounded-sm uppercase tracking-wide"
+              href="{{ $item->url }}"
+              @if($item->open_new_tab) target="_blank" rel="noopener" @endif
+            >
+              {{ $item->title }}
+            </a>
+          @endforeach
+          <a class="mobile-menu-link flex items-center gap-2 py-3 px-4 text-base text-gray-600 hover:text-[#1a2b4c] hover:bg-gray-100 rounded-sm" href="tel:{{ $phoneMobile }}">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
-            +7 (917) 436-00-01
+            {{ $phoneMobile }}
           </a>
-          <a class="mobile-menu-link flex items-center gap-2 py-3 px-4 text-base text-gray-600 hover:text-[#1a2b4c] hover:bg-gray-100 rounded-sm" href="tel:+73472151757">
+          <a class="mobile-menu-link flex items-center gap-2 py-3 px-4 text-base text-gray-600 hover:text-[#1a2b4c] hover:bg-gray-100 rounded-sm" href="tel:{{ $phoneCity }}">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
-            +7 (347) 215-17-57
+            {{ $phoneCity }}
           </a>
           <a class="mobile-menu-link inline-flex items-center justify-center py-3 px-6 mt-2 text-sm font-medium text-white bg-[#2c5282] rounded-sm hover:bg-[#1e4a8a] uppercase tracking-wide" href="#contacts">Запросить КП</a>
         </nav>
@@ -114,41 +149,46 @@
               Комплексные поставки промышленного оборудования и химии для предприятий России и СНГ.
             </p>
             <div class="flex flex-col gap-2 mt-2">
-              <a href="tel:+79174360001" class="flex items-center gap-2 text-sm text-[#8b9ab5] hover:text-[#f8f9fb] transition-colors">
+              <a href="tel:{{ $phoneMobile }}" class="flex items-center gap-2 text-sm text-[#8b9ab5] hover:text-[#f8f9fb] transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone h-4 w-4" aria-hidden="true">
                   <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path>
                 </svg>
-                +7 (917) 436-00-01
+                {{ $phoneMobile }}
               </a>
-              <a href="tel:+73472151757" class="flex items-center gap-2 text-sm text-[#8b9ab5] hover:text-[#f8f9fb] transition-colors">
+              <a href="tel:{{ $phoneCity }}" class="flex items-center gap-2 text-sm text-[#8b9ab5] hover:text-[#f8f9fb] transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone h-4 w-4" aria-hidden="true">
                   <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path>
                 </svg>
-                +7 (347) 215-17-57
+                {{ $phoneCity }}
               </a>
-              <a href="mailto:ooohtp@mail.ru" class="flex items-center gap-2 text-sm text-[#8b9ab5] hover:text-[#f8f9fb] transition-colors">
+              <a href="mailto:{{ $contactEmail }}" class="flex items-center gap-2 text-sm text-[#8b9ab5] hover:text-[#f8f9fb] transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail h-4 w-4" aria-hidden="true">
                   <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path>
                   <rect x="2" y="4" width="20" height="16" rx="2"></rect>
                 </svg>
-                ooohtp@mail.ru
+                {{ $contactEmail }}
               </a>
               <span class="flex items-center gap-2 text-sm text-[#8b9ab5]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-4 w-4" aria-hidden="true">
                   <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
                   <circle cx="12" cy="10" r="3"></circle>
                 </svg>
-                г. Уфа, ул. Гоголя, 60/1
+                {{ $contactAddress }}
               </span>
             </div>
           </div>
           <div class="flex flex-col gap-4">
             <h4 class="text-xs font-medium tracking-widest text-[#5a9cf5] uppercase">Навигация</h4>
             <nav class="flex flex-col gap-2.5">
-              <a class="text-sm text-[#8b9ab5] transition-colors hover:text-[#f8f9fb]" href="#about">О компании</a>
-              <a class="text-sm text-[#8b9ab5] transition-colors hover:text-[#f8f9fb]" href="#brands">Бренды</a>
-              <a class="text-sm text-[#8b9ab5] transition-colors hover:text-[#f8f9fb]" href="#products">Продукция</a>
-              <a class="text-sm text-[#8b9ab5] transition-colors hover:text-[#f8f9fb]" href="#contacts">Контакты</a>
+              @foreach($mainMenuItems as $item)
+                <a
+                  class="text-sm text-[#8b9ab5] transition-colors hover:text-[#f8f9fb]"
+                  href="{{ $item->url }}"
+                  @if($item->open_new_tab) target="_blank" rel="noopener" @endif
+                >
+                  {{ $item->title }}
+                </a>
+              @endforeach
             </nav>
           </div>
           <div class="flex flex-col gap-4">
@@ -166,19 +206,30 @@
           <div class="flex flex-col gap-4">
             <h4 class="text-xs font-medium tracking-widest text-[#5a9cf5] uppercase">Реквизиты</h4>
             <div class="flex flex-col gap-2 text-sm text-[#8b9ab5]">
-              <p>ООО «Химтехпром»</p>
-              <p>ИНН: 0276974787</p>
-              <p>КПП: 027401001</p>
-              <p>ОГРН: 1230200013779</p>
-              <p class="mt-2 text-xs leading-relaxed">
-                Юр. адрес: 450015, г. Уфа, ул. Гоголя, д. 60/1, офис 504
-              </p>
+              @if($requisitesCompany)
+                <p>{{ $requisitesCompany }}</p>
+              @endif
+              @if($requisitesInn)
+                <p>ИНН: {{ $requisitesInn }}</p>
+              @endif
+              @if($requisitesKpp)
+                <p>КПП: {{ $requisitesKpp }}</p>
+              @endif
+              @if($requisitesOgrn)
+                <p>ОГРН: {{ $requisitesOgrn }}</p>
+              @endif
+              @if($contactLegalAddress)
+                <p class="mt-2 text-xs leading-relaxed">Юр. адрес: {{ $contactLegalAddress }}</p>
+              @endif
+              @if($requisitesBank)
+                <div class="mt-2 text-xs leading-relaxed whitespace-pre-line">{!! nl2br(e($requisitesBank)) !!}</div>
+              @endif
             </div>
           </div>
         </div>
         <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-[#1e3054] pt-8 md:flex-row">
           <p class="text-xs text-[#5a6a85]">
-            © {{ date('Y') }} ООО «Химтехпром». Все права защищены.
+            © {{ date('Y') }} {{ $requisitesCompany ?: 'ООО «Химтехпром»' }}. Все права защищены.
           </p>
           <div class="flex gap-6">
             <a class="text-xs text-[#5a6a85] hover:text-[#8b9ab5] transition-colors" href="#">Политика конфиденциальности</a>

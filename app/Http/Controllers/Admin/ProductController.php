@@ -23,7 +23,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = ProductCategory::orderBy('name')->get();
+        $categories = ProductCategory::ordered()->get();
 
         return view('admin.products.create', compact('categories'));
     }
@@ -33,15 +33,38 @@ class ProductController extends Controller
         $data = $request->validate([
             'product_category_id' => ['nullable', 'integer', 'exists:product_categories,id'],
             'name' => ['required', 'string', 'max:255'],
+            'slug' => ['nullable', 'string', 'max:255', 'regex:/^[a-zA-Z0-9\s\-]+$/'],
             'description' => ['nullable', 'string'],
-            'price' => ['required', 'numeric', 'min:0'],
+            'price' => ['nullable', 'integer', 'min:0'],
             'is_published' => ['boolean'],
+            'in_stock' => ['boolean'],
             'main_image' => ['nullable', 'image', 'max:4096'],
             'gallery.*' => ['nullable', 'image', 'max:4096'],
         ]);
 
-        $data['slug'] = Str::slug($data['name']);
+        $slugFromInput = isset($data['slug']) && $data['slug'] !== '' ? Str::slug(trim($data['slug'])) : '';
+        if ($slugFromInput !== '') {
+            $slugBase = $slugFromInput;
+            $slug = $slugBase;
+            $i = 1;
+            while (Product::where('slug', $slug)->exists()) {
+                $slug = $slugBase . '-' . $i++;
+            }
+        } else {
+            $slugBase = Str::slug($data['name']);
+            $slug = $slugBase;
+            $i = 1;
+            while (Product::where('slug', $slug)->exists()) {
+                $slug = $slugBase . '-' . $i++;
+            }
+        }
+        $data['slug'] = $slug;
         $data['is_published'] = $request->boolean('is_published');
+        $data['in_stock'] = $request->boolean('in_stock', true);
+
+        if (!isset($data['price']) || $data['price'] === null || $data['price'] === '') {
+            unset($data['price']);
+        }
 
         if ($request->hasFile('main_image')) {
             $data['main_image'] = $request->file('main_image')->store('products', 'public');
@@ -66,7 +89,7 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $categories = ProductCategory::orderBy('name')->get();
+        $categories = ProductCategory::ordered()->get();
         $product->load('images');
 
         return view('admin.products.edit', compact('product', 'categories'));
@@ -77,15 +100,39 @@ class ProductController extends Controller
         $data = $request->validate([
             'product_category_id' => ['nullable', 'integer', 'exists:product_categories,id'],
             'name' => ['required', 'string', 'max:255'],
+            'slug' => ['nullable', 'string', 'max:255', 'regex:/^[a-zA-Z0-9\s\-]+$/'],
             'description' => ['nullable', 'string'],
-            'price' => ['required', 'numeric', 'min:0'],
+            'price' => ['nullable', 'integer', 'min:0'],
             'is_published' => ['boolean'],
+            'in_stock' => ['boolean'],
             'main_image' => ['nullable', 'image', 'max:4096'],
             'gallery.*' => ['nullable', 'image', 'max:4096'],
         ]);
 
-        $data['slug'] = Str::slug($data['name']);
+        $slugFromInput = isset($data['slug']) && $data['slug'] !== '' ? Str::slug(trim($data['slug'])) : '';
+        if ($slugFromInput !== '') {
+            $slugBase = $slugFromInput;
+            $slug = $slugBase;
+            $i = 1;
+            while (Product::where('slug', $slug)->where('id', '!=', $product->id)->exists()) {
+                $slug = $slugBase . '-' . $i++;
+            }
+            $data['slug'] = $slug;
+        } elseif ($data['name'] !== $product->name) {
+            $slugBase = Str::slug($data['name']);
+            $slug = $slugBase;
+            $i = 1;
+            while (Product::where('slug', $slug)->where('id', '!=', $product->id)->exists()) {
+                $slug = $slugBase . '-' . $i++;
+            }
+            $data['slug'] = $slug;
+        }
         $data['is_published'] = $request->boolean('is_published');
+        $data['in_stock'] = $request->boolean('in_stock', true);
+
+        if (!isset($data['price']) || $data['price'] === null || $data['price'] === '') {
+            unset($data['price']);
+        }
 
         if ($request->hasFile('main_image')) {
             if ($product->main_image) {
