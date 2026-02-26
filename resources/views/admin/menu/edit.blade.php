@@ -37,9 +37,18 @@
                class="rounded border-stone-300 text-amber-500 focus:ring-amber-500">
         Открывать в новой вкладке
     </label>
-    <div class="flex gap-3 pt-2">
-        <button type="submit" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-stone-900 font-medium rounded-lg transition">Сохранить</button>
-        <a href="{{ route('admin.menu.index') }}" class="px-4 py-2 border border-stone-300 rounded-lg hover:bg-stone-50 transition">Отмена</a>
+    <div class="pt-4 border-t border-stone-200 flex items-center justify-between">
+        <a href="{{ route('admin.menu.index') }}" class="text-sm text-stone-500 hover:text-stone-700">Отмена</a>
+        <div class="flex gap-2">
+            <button type="submit" name="action" value="apply"
+                    class="px-4 py-2 bg-amber-100 hover:bg-amber-200 text-amber-900 font-medium rounded-lg border border-amber-300 transition">
+                Применить
+            </button>
+            <button type="submit"
+                    class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-stone-900 font-medium rounded-lg transition">
+                Сохранить
+            </button>
+        </div>
     </div>
 </form>
 @endsection

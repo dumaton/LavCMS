@@ -37,7 +37,13 @@ class MenuItemController extends Controller
         $data['is_active'] = $request->boolean('is_active');
         $data['open_new_tab'] = $request->boolean('open_new_tab');
 
-        MenuItem::create($data);
+        $menuItem = MenuItem::create($data);
+
+        if ($request->input('action') === 'apply') {
+            return redirect()
+                ->route('admin.menu.edit', $menuItem)
+                ->with('success', 'Пункт меню добавлен.');
+        }
 
         return redirect()
             ->route('admin.menu.index')
@@ -64,6 +70,12 @@ class MenuItemController extends Controller
         $data['open_new_tab'] = $request->boolean('open_new_tab');
 
         $menu->update($data);
+
+        if ($request->input('action') === 'apply') {
+            return redirect()
+                ->route('admin.menu.edit', $menu)
+                ->with('success', 'Пункт меню обновлён.');
+        }
 
         return redirect()
             ->route('admin.menu.index')

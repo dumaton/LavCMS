@@ -38,17 +38,22 @@
     </div>
 
     <div class="flex justify-between items-center">
-        <a href="mailto:{{ $contact->email }}?subject={{ rawurlencode('Re: ' . ($contact->subject ?: 'Сообщение с сайта')) }}"
-           class="inline-flex items-center px-4 py-2 rounded-lg border border-stone-300 text-sm text-stone-700 hover:bg-stone-50 transition">
-            Ответить по email
+        <a href="{{ route('admin.contacts.index') }}" class="text-sm text-stone-500 hover:text-stone-700">
+            Вернуться
         </a>
-        <form action="{{ route('admin.contacts.destroy', $contact) }}" method="POST" onsubmit="return confirm('Удалить сообщение?');">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-lg transition">
-                Удалить
-            </button>
-        </form>
+        <div class="flex gap-2">
+            <a href="mailto:{{ $contact->email }}?subject={{ rawurlencode('Re: ' . ($contact->subject ?: 'Сообщение с сайта')) }}"
+               class="inline-flex items-center px-4 py-2 rounded-lg border border-stone-300 text-sm text-stone-700 hover:bg-stone-50 transition">
+                Ответить по email
+            </a>
+            <form action="{{ route('admin.contacts.destroy', $contact) }}" method="POST" onsubmit="return confirm('Удалить сообщение?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-lg transition">
+                    Удалить
+                </button>
+            </form>
+        </div>
     </div>
 </div>
 @endsection

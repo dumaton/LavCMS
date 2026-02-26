@@ -70,7 +70,13 @@ class ProductCategoryController extends Controller
             $categoryData['image'] = $request->file('image')->store('product-categories', 'public');
         }
 
-        ProductCategory::create($categoryData);
+        $category = ProductCategory::create($categoryData);
+
+        if ($request->input('action') === 'apply') {
+            return redirect()
+                ->route('admin.product-categories.edit', $category)
+                ->with('success', 'Раздел добавлен.');
+        }
 
         return redirect()
             ->route('admin.product-categories.index')
@@ -133,6 +139,12 @@ class ProductCategoryController extends Controller
         }
 
         $product_category->save();
+
+        if ($request->input('action') === 'apply') {
+            return redirect()
+                ->route('admin.product-categories.edit', $product_category)
+                ->with('success', 'Раздел обновлён.');
+        }
 
         return redirect()
             ->route('admin.product-categories.index')

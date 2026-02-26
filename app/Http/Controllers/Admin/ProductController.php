@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\Brand;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -24,14 +25,16 @@ class ProductController extends Controller
     public function create()
     {
         $categories = ProductCategory::ordered()->get();
+        $brands = Brand::orderBy('sort_order')->orderBy('name')->get();
 
-        return view('admin.products.create', compact('categories'));
+        return view('admin.products.create', compact('categories', 'brands'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
             'product_category_id' => ['nullable', 'integer', 'exists:product_categories,id'],
+            'brand_id' => ['nullable', 'integer', 'exists:brands,id'],
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'regex:/^[a-zA-Z0-9\s\-]+$/'],
             'description' => ['nullable', 'string'],
@@ -99,15 +102,17 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = ProductCategory::ordered()->get();
-        $product->load('images');
+        $brands = Brand::orderBy('sort_order')->orderBy('name')->get();
+        $product->load('images', 'brand');
 
-        return view('admin.products.edit', compact('product', 'categories'));
+        return view('admin.products.edit', compact('product', 'categories', 'brands'));
     }
 
     public function update(Request $request, Product $product)
     {
         $data = $request->validate([
             'product_category_id' => ['nullable', 'integer', 'exists:product_categories,id'],
+            'brand_id' => ['nullable', 'integer', 'exists:brands,id'],
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'regex:/^[a-zA-Z0-9\s\-]+$/'],
             'description' => ['nullable', 'string'],

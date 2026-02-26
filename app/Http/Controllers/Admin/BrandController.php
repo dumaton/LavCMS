@@ -41,7 +41,13 @@ class BrandController extends Controller
             $data['image'] = $path;
         }
 
-        Brand::create($data);
+        $brand = Brand::create($data);
+
+        if ($request->input('action') === 'apply') {
+            return redirect()
+                ->route('admin.brands.edit', $brand)
+                ->with('success', 'Бренд добавлен.');
+        }
 
         return redirect()
             ->route('admin.brands.index')
@@ -75,6 +81,12 @@ class BrandController extends Controller
         }
 
         $brand->update($data);
+
+        if ($request->input('action') === 'apply') {
+            return redirect()
+                ->route('admin.brands.edit', $brand)
+                ->with('success', 'Бренд обновлён.');
+        }
 
         return redirect()
             ->route('admin.brands.index')

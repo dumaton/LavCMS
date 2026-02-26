@@ -37,7 +37,10 @@ class CatalogController extends Controller
 
         $product->load(['category', 'images']);
 
-        return view('catalog.show', compact('product'));
+        $categories = ProductCategory::active()->ordered()->get();
+        $activeCategory = $product->category;
+
+        return view('catalog.show', compact('product', 'categories', 'activeCategory'));
     }
 }
 

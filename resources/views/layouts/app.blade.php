@@ -43,6 +43,7 @@
       $requisitesOgrn = \App\Models\Setting::get('requisites_ogrn');
       $requisitesBank = \App\Models\Setting::get('requisites_bank');
       $analyticsCode = \App\Models\Setting::get('analytics_code');
+      $footerProductCategories = \App\Models\ProductCategory::active()->ordered()->limit(10)->get();
     @endphp
     <header
       id="site-header"
@@ -195,13 +196,18 @@
           <div class="flex flex-col gap-4">
             <h4 class="text-xs font-medium tracking-widest text-[#5a9cf5] uppercase">Продукция</h4>
             <nav class="flex flex-col gap-2.5">
-              <span class="text-sm text-[#8b9ab5] transition-colors">Приводная техника</span>
-              <span class="text-sm text-[#8b9ab5] transition-colors">КИП и автоматика</span>
-              <span class="text-sm text-[#8b9ab5] transition-colors">Насосное оборудование</span>
-              <span class="text-sm text-[#8b9ab5] transition-colors">Трубопроводная арматура</span>
-              <span class="text-sm text-[#8b9ab5] transition-colors">Химия для нефтепереработки</span>
-              <span class="text-sm text-[#8b9ab5] transition-colors">Химия для лакокрасочных предприятий</span>
-              <span class="text-sm text-[#8b9ab5] transition-colors">Химия для пищевой промышленности</span>
+              @forelse($footerProductCategories as $category)
+                <a
+                  href="{{ route('catalog.category', $category->slug) }}"
+                  class="text-sm text-[#8b9ab5] transition-colors hover:text-[#f8f9fb]"
+                >
+                  {{ $category->name }}
+                </a>
+              @empty
+                <span class="text-sm text-[#8b9ab5] transition-colors">
+                  Разделы каталога пока не добавлены.
+                </span>
+              @endforelse
             </nav>
           </div>
           <div class="flex flex-col gap-4">

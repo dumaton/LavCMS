@@ -104,10 +104,16 @@
         <a href="{{ route('admin.product-categories.index') }}" class="text-sm text-stone-500 hover:text-stone-700">
             Отмена
         </a>
-        <button type="submit"
-                class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-stone-900 font-medium rounded-lg transition">
-            Сохранить
-        </button>
+        <div class="flex gap-2">
+            <button type="submit" name="action" value="apply"
+                    class="px-4 py-2 bg-amber-100 hover:bg-amber-200 text-amber-900 font-medium rounded-lg border border-amber-300 transition">
+                Применить
+            </button>
+            <button type="submit"
+                    class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-stone-900 font-medium rounded-lg transition">
+                Сохранить
+            </button>
+        </div>
     </div>
 </form>
 @endsection

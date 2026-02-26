@@ -7,6 +7,48 @@
 <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="max-w-3xl space-y-6">
     @csrf
 
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <label class="block text-sm font-medium text-stone-700 mb-1">Раздел</label>
+            @if($categories->isEmpty())
+                <p class="text-sm text-stone-500">Разделы ещё не созданы. Товар можно сохранить без привязки к разделу.</p>
+            @else
+                <select name="product_category_id"
+                        class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
+                    <option value="">Без раздела</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" @selected(old('product_category_id') == $category->id)>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+            @endif
+            @error('product_category_id')
+                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-stone-700 mb-1">Бренд</label>
+            @if($brands->isEmpty())
+                <p class="text-sm text-stone-500">Бренды ещё не созданы. Товар можно сохранить без привязки к бренду.</p>
+            @else
+                <select name="brand_id"
+                        class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
+                    <option value="">Без бренда</option>
+                    @foreach($brands as $brand)
+                        <option value="{{ $brand->id }}" @selected(old('brand_id') == $brand->id)>
+                            {{ $brand->name }}
+                        </option>
+                    @endforeach
+                </select>
+            @endif
+            @error('brand_id')
+                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+    </div>
+
     <div>
         <label class="block text-sm font-medium text-stone-700 mb-1">Название *</label>
         <input type="text" name="name" value="{{ old('name') }}"
