@@ -15,6 +15,7 @@ class ProductCategory extends Model
         'name',
         'slug',
         'image',
+        'svg_icon',
         'description',
         'type',
         'show_on_home',

@@ -78,6 +78,14 @@
             <p class="text-xs text-stone-400 mt-1">Небольшой ярлык над заголовком, например: «Надежный поставщик».</p>
         </div>
 
+    <div>
+        <label for="hero_title" class="block text-sm font-medium text-stone-700 mb-1">Заголовок</label>
+        <input type="text" name="hero_title" id="hero_title" value="{{ old('hero_title', $heroTitle) }}"
+               class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
+        @error('hero_title')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
+        <p class="text-xs text-stone-400 mt-1">Основной заголовок, например: «Промышленное оборудование и химия».</p>
+    </div>
+
         <div>
             <label for="hero_subtitle" class="block text-sm font-medium text-stone-700 mb-1">Подзаголовок</label>
             <input type="text" name="hero_subtitle" id="hero_subtitle" value="{{ old('hero_subtitle', $heroSubtitle) }}"
@@ -86,13 +94,6 @@
             <p class="text-xs text-stone-400 mt-1">Выделенная часть заголовка, например: «для вашего производства».</p>
         </div>
 
-    <div>
-        <label for="hero_title" class="block text-sm font-medium text-stone-700 mb-1">Заголовок</label>
-        <input type="text" name="hero_title" id="hero_title" value="{{ old('hero_title', $heroTitle) }}"
-               class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
-        @error('hero_title')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-        <p class="text-xs text-stone-400 mt-1">Основной заголовок, например: «Промышленное оборудование и химия».</p>
-    </div>
 
     <div>
         <label for="hero_description" class="block text-sm font-medium text-stone-700 mb-1">Описание</label>

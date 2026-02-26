@@ -112,10 +112,21 @@
     @if($product->images->isNotEmpty())
         <div>
             <label class="block text-sm font-medium text-stone-700 mb-2">Дополнительные фото</label>
-            <div class="grid grid-cols-3 gap-3">
+            <div id="product-gallery-sortable" class="grid grid-cols-3 gap-3">
                 @foreach($product->images as $image)
-                    <div class="bg-white rounded-lg border border-stone-200 overflow-hidden">
-                        <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }}" class="w-full h-24 object-cover">
+                    <div class="bg-white rounded-lg border border-stone-200 overflow-hidden flex flex-col" data-id="{{ $image->id }}">
+                        <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }}" class="w-full h-24 object-cover cursor-move">
+                        <div class="px-1.5 py-1 border-t border-stone-200 flex justify-end">
+                            <button type="button"
+                                    class="js-delete-image inline-flex items-center justify-center w-7 h-7 rounded-full hover:bg-red-50 hover:text-red-700"
+                                    data-url="{{ route('admin.products.images.destroy', [$product, $image]) }}"
+                                    title="Удалить фото"
+                                    aria-label="Удалить фото">
+                                <svg viewBox="0 0 20 20" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 5l10 10M15 5L5 15" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 @endforeach
             </div>
@@ -124,10 +135,68 @@
 
     <div class="pt-4 border-t border-stone-200 flex items-center justify-between">
         <a href="{{ route('admin.products.index') }}" class="text-sm text-stone-500 hover:text-stone-700">Отмена</a>
-        <button type="submit" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-stone-900 font-medium rounded-lg transition">
-            Сохранить
-        </button>
+        <div class="flex gap-2">
+            <button type="submit" name="action" value="apply"
+                    class="px-4 py-2 bg-amber-100 hover:bg-amber-200 text-amber-900 font-medium rounded-lg border border-amber-300 transition">
+                Применить
+            </button>
+            <button type="submit"
+                    class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-stone-900 font-medium rounded-lg transition">
+                Сохранить
+            </button>
+        </div>
     </div>
 </form>
+
+<script src="{{ asset('js/sortable.min.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('product-gallery-sortable');
+        if (container && typeof Sortable !== 'undefined') {
+            new Sortable(container, {
+                animation: 150,
+                onEnd: () => {
+                    const ids = Array
+                        .from(container.querySelectorAll('[data-id]'))
+                        .map((el) => el.dataset.id);
+
+                    fetch('{{ route('admin.products.images.reorder', $product) }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        body: JSON.stringify({ order: ids }),
+                    }).catch(() => {});
+                },
+            });
+        }
+
+        document.querySelectorAll('.js-delete-image').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const url = btn.dataset.url;
+                if (!url || !confirm('Удалить это фото?')) {
+                    return;
+                }
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: JSON.stringify({ _method: 'DELETE' }),
+                }).then(() => {
+                    const card = btn.closest('[data-id]');
+                    if (card) {
+                        card.remove();
+                    }
+                }).catch(() => {});
+            });
+        });
+    });
+</script>
 @endsection
 

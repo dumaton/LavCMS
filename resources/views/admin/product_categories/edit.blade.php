@@ -66,6 +66,17 @@
         @enderror
     </div>
 
+    <div>
+        <label class="block text-sm font-medium text-stone-700 mb-1">SVG иконка</label>
+        <textarea name="svg_icon" rows="4"
+                  class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500 font-mono text-xs"
+                  placeholder="<svg>...">{{ old('svg_icon', $category->svg_icon) }}</textarea>
+        <p class="text-xs text-stone-500 mt-1">Вставьте код SVG без тега &lt;script&gt;.</p>
+        @error('svg_icon')
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+        @enderror
+    </div>
+
     <div class="flex flex-wrap gap-6 items-center">
         <label class="inline-flex items-center gap-2 cursor-pointer">
             <input type="checkbox" name="show_on_home" value="1" {{ old('show_on_home', $category->show_on_home) ? 'checked' : '' }}

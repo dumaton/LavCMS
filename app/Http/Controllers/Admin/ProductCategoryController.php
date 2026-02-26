@@ -31,6 +31,7 @@ class ProductCategoryController extends Controller
             'slug' => ['nullable', 'string', 'max:255', 'regex:/^[a-zA-Z0-9\s\-]+$/'],
             'description' => ['nullable', 'string'],
             'type' => ['nullable', 'string', 'in:equipment,chemistry'],
+            'svg_icon' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'max:4096'],
             'show_on_home' => ['boolean'],
             'is_active' => ['boolean'],
@@ -59,6 +60,7 @@ class ProductCategoryController extends Controller
             'slug' => $slug,
             'description' => $data['description'] ?? null,
             'type' => $data['type'] ?? null,
+            'svg_icon' => $data['svg_icon'] ?? null,
             'show_on_home' => $request->boolean('show_on_home', true),
             'is_active' => $request->boolean('is_active', true),
             'sort_order' => $data['sort_order'] ?? (ProductCategory::max('sort_order') ?? 0) + 1,
@@ -89,6 +91,7 @@ class ProductCategoryController extends Controller
             'slug' => ['nullable', 'string', 'max:255', 'regex:/^[a-zA-Z0-9\s\-]+$/'],
             'description' => ['nullable', 'string'],
             'type' => ['nullable', 'string', 'in:equipment,chemistry'],
+            'svg_icon' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'max:4096'],
             'show_on_home' => ['boolean'],
             'is_active' => ['boolean'],
@@ -117,6 +120,7 @@ class ProductCategoryController extends Controller
         $product_category->name = $data['name'];
         $product_category->description = $data['description'] ?? null;
         $product_category->type = $data['type'] ?? null;
+        $product_category->svg_icon = $data['svg_icon'] ?? null;
         $product_category->show_on_home = $request->boolean('show_on_home', true);
         $product_category->is_active = $request->boolean('is_active', true);
         $product_category->sort_order = $data['sort_order'] ?? $product_category->sort_order;

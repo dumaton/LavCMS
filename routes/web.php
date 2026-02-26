@@ -54,6 +54,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('brands', AdminBrandController::class)->except(['show']);
         Route::post('brands/reorder', [AdminBrandController::class, 'reorder'])->name('brands.reorder');
         Route::resource('products', AdminProductController::class)->except(['show']);
+        Route::delete('products/{product}/images/{image}', [AdminProductController::class, 'destroyImage'])
+            ->name('products.images.destroy');
+        Route::post('products/{product}/images/reorder', [AdminProductController::class, 'reorderImages'])
+            ->name('products.images.reorder');
         Route::resource('product-categories', AdminProductCategoryController::class)->except(['show']);
         Route::post('product-categories/reorder', [AdminProductCategoryController::class, 'reorder'])->name('product-categories.reorder');
         Route::resource('users', AdminUserController::class)->except(['show']);

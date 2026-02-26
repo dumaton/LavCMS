@@ -73,13 +73,22 @@ class ProductController extends Controller
         $product = Product::create($data);
 
         if ($request->hasFile('gallery')) {
+            $nextSort = (ProductImage::where('product_id', $product->id)->max('sort_order') ?? 0);
             foreach ($request->file('gallery') as $file) {
                 $path = $file->store('products/gallery', 'public');
+                $nextSort++;
                 ProductImage::create([
                     'product_id' => $product->id,
                     'path' => $path,
+                    'sort_order' => $nextSort,
                 ]);
             }
+        }
+
+        if ($request->input('action') === 'apply') {
+            return redirect()
+                ->route('admin.products.edit', $product)
+                ->with('success', 'Товар создан.');
         }
 
         return redirect()
@@ -144,13 +153,22 @@ class ProductController extends Controller
         $product->update($data);
 
         if ($request->hasFile('gallery')) {
+            $nextSort = (ProductImage::where('product_id', $product->id)->max('sort_order') ?? 0);
             foreach ($request->file('gallery') as $file) {
                 $path = $file->store('products/gallery', 'public');
+                $nextSort++;
                 ProductImage::create([
                     'product_id' => $product->id,
                     'path' => $path,
+                    'sort_order' => $nextSort,
                 ]);
             }
+        }
+
+        if ($request->input('action') === 'apply') {
+            return redirect()
+                ->route('admin.products.edit', $product)
+                ->with('success', 'Товар обновлён.');
         }
 
         return redirect()
@@ -173,6 +191,37 @@ class ProductController extends Controller
         return redirect()
             ->route('admin.products.index')
             ->with('success', 'Товар удалён.');
+    }
+
+    public function destroyImage(Product $product, ProductImage $image)
+    {
+        if ($image->product_id !== $product->id) {
+            abort(404);
+        }
+
+        if ($image->path) {
+            Storage::disk('public')->delete($image->path);
+        }
+
+        $image->delete();
+
+        return back()->with('success', 'Фото удалено.');
+    }
+
+    public function reorderImages(Request $request, Product $product)
+    {
+        $data = $request->validate([
+            'order' => ['required', 'array'],
+            'order.*' => ['integer', 'exists:product_images,id'],
+        ]);
+
+        foreach ($data['order'] as $index => $id) {
+            ProductImage::where('product_id', $product->id)
+                ->whereKey($id)
+                ->update(['sort_order' => $index + 1]);
+        }
+
+        return response()->json(['status' => 'ok']);
     }
 }
 
