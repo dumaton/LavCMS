@@ -34,6 +34,9 @@ class SettingController extends Controller
                 'requisites_kpp',
                 'requisites_ogrn',
                 'requisites_bank',
+                'privacy_policy',
+                'terms_of_use',
+                'analytics_code',
             ])
             ->pluck('value', 'key');
 
@@ -67,6 +70,9 @@ class SettingController extends Controller
             'requisites_kpp' => ['nullable', 'string', 'max:50'],
             'requisites_ogrn' => ['nullable', 'string', 'max:50'],
             'requisites_bank' => ['nullable', 'string', 'max:1000'],
+            'privacy_policy' => ['nullable', 'string', 'max:20000'],
+            'terms_of_use' => ['nullable', 'string', 'max:20000'],
+            'analytics_code' => ['nullable', 'string', 'max:10000'],
         ]);
 
         Setting::setMany([
@@ -92,6 +98,9 @@ class SettingController extends Controller
             'requisites_kpp' => $data['requisites_kpp'] ?? null,
             'requisites_ogrn' => $data['requisites_ogrn'] ?? null,
             'requisites_bank' => $data['requisites_bank'] ?? null,
+            'privacy_policy' => $data['privacy_policy'] ?? null,
+            'terms_of_use' => $data['terms_of_use'] ?? null,
+            'analytics_code' => $data['analytics_code'] ?? null,
         ]);
 
         return redirect()

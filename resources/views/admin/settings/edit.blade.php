@@ -30,6 +30,9 @@
     $requisitesKpp = $settings['requisites_kpp'] ?? '027401001';
     $requisitesOgrn = $settings['requisites_ogrn'] ?? '1230200013779';
     $requisitesBank = $settings['requisites_bank'] ?? '';
+    $privacyPolicy = $settings['privacy_policy'] ?? '';
+    $termsOfUse = $settings['terms_of_use'] ?? '';
+    $analyticsCode = $settings['analytics_code'] ?? '';
 @endphp
 
 <form action="{{ route('admin.settings.update') }}" method="POST" class="max-w-2xl space-y-6">
@@ -238,6 +241,53 @@
                   class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">{{ old('requisites_bank', $requisitesBank) }}</textarea>
         @error('requisites_bank')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
         <p class="text-xs text-stone-400 mt-1">Банк, БИК, расчётный счёт, корр. счёт — каждая строка с новой линии.</p>
+    </div>
+
+    <div class="space-y-2 pt-4 border-t border-stone-200">
+        <h2 class="text-lg font-semibold text-stone-800">Правовая информация</h2>
+        <p class="text-sm text-stone-500">
+            Тексты страниц «Политика конфиденциальности» и «Пользовательское соглашение», которые открываются по ссылкам в подвале сайта.
+        </p>
+    </div>
+
+    <div>
+        <label for="privacy_policy" class="block text-sm font-medium text-stone-700 mb-1">Политика конфиденциальности</label>
+        <textarea name="privacy_policy" id="privacy_policy" rows="8"
+                  class="js-richtext w-full px-3 py-2 border border-stone-300 rounded-lg font-mono text-xs leading-relaxed focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                  placeholder="Текст политики конфиденциальности...">{{ old('privacy_policy', $privacyPolicy) }}</textarea>
+        @error('privacy_policy')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
+        <p class="text-xs text-stone-400 mt-1">
+            Можно использовать HTML‑разметку (&lt;p&gt;, &lt;ul&gt;, &lt;strong&gt; и т.п.) для форматирования текста.
+        </p>
+    </div>
+
+    <div>
+        <label for="terms_of_use" class="block text-sm font-medium text-stone-700 mb-1">Пользовательское соглашение</label>
+        <textarea name="terms_of_use" id="terms_of_use" rows="8"
+                  class="js-richtext w-full px-3 py-2 border border-stone-300 rounded-lg font-mono text-xs leading-relaxed focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                  placeholder="Текст пользовательского соглашения...">{{ old('terms_of_use', $termsOfUse) }}</textarea>
+        @error('terms_of_use')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
+        <p class="text-xs text-stone-400 mt-1">
+            Также поддерживается базовый HTML для оформления разделов и списков.
+        </p>
+    </div>
+
+    <div class="space-y-2 pt-4 border-t border-stone-200">
+        <h2 class="text-lg font-semibold text-stone-800">Счётчики и аналитика</h2>
+        <p class="text-sm text-stone-500">
+            Код внешних сервисов (Яндекс.Метрика, Google Analytics и др.), который будет выведен в самом конце страницы перед закрывающим тегом &lt;/body&gt;.
+        </p>
+    </div>
+
+    <div>
+        <label for="analytics_code" class="block text-sm font-medium text-stone-700 mb-1">Код счётчиков и аналитики</label>
+        <textarea name="analytics_code" id="analytics_code" rows="6"
+                  class="w-full px-3 py-2 border border-stone-300 rounded-lg font-mono text-xs leading-relaxed focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                  placeholder="&lt;!-- Пример: Яндекс.Метрика --&gt;&#10;&lt;script type=&quot;text/javascript&quot;&gt;...&lt;/script&gt;">{{ old('analytics_code', $analyticsCode) }}</textarea>
+        @error('analytics_code')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
+        <p class="text-xs text-stone-400 mt-1">
+            Вставьте сюда полный код счётчиков. Будьте внимательны: этот код выполняется на всех страницах сайта.
+        </p>
     </div>
 
     <div class="flex gap-3 pt-4">

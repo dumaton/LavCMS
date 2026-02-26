@@ -42,6 +42,7 @@
       $requisitesKpp = \App\Models\Setting::get('requisites_kpp');
       $requisitesOgrn = \App\Models\Setting::get('requisites_ogrn');
       $requisitesBank = \App\Models\Setting::get('requisites_bank');
+      $analyticsCode = \App\Models\Setting::get('analytics_code');
     @endphp
     <header
       id="site-header"
@@ -232,8 +233,8 @@
             © {{ date('Y') }} {{ $requisitesCompany ?: 'ООО «Химтехпром»' }}. Все права защищены.
           </p>
           <div class="flex gap-6">
-            <a class="text-xs text-[#5a6a85] hover:text-[#8b9ab5] transition-colors" href="#">Политика конфиденциальности</a>
-            <a class="text-xs text-[#5a6a85] hover:text-[#8b9ab5] transition-colors" href="#">Пользовательское соглашение</a>
+            <a class="text-xs text-[#5a6a85] hover:text-[#8b9ab5] transition-colors" href="{{ route('legal.privacy') }}">Политика конфиденциальности</a>
+            <a class="text-xs text-[#5a6a85] hover:text-[#8b9ab5] transition-colors" href="{{ route('legal.terms') }}">Пользовательское соглашение</a>
           </div>
         </div>
       </div>
@@ -292,6 +293,10 @@
           </div>
         @endif
       </div>
+    @endif
+
+    @if(!empty($analyticsCode))
+      {!! $analyticsCode !!}
     @endif
 
     <script>

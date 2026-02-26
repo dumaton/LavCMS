@@ -6,6 +6,7 @@ use App\Models\News;
 use App\Models\Article;
 use App\Models\Setting;
 use App\Models\Brand;
+use App\Models\ProductCategory;
 
 class HomeController extends Controller
 {
@@ -13,12 +14,6 @@ class HomeController extends Controller
     {
         $news = News::where('is_published', true)->latest('published_at')->take(5)->get();
         $articles = Article::where('is_published', true)->latest('published_at')->take(5)->get();
-
-        $brands = Brand::query()
-            ->where('is_active', true)
-            ->orderBy('sort_order')
-            ->orderBy('name')
-            ->get();
 
         $settings = Setting::query()
             ->whereIn('key', [
@@ -41,6 +36,31 @@ class HomeController extends Controller
             ])
             ->pluck('value', 'key');
 
-        return view('home', compact('news', 'articles', 'brands', 'settings'));
+        $brands = Brand::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
+
+        $equipmentCategories = ProductCategory::active()
+            ->showOnHome()
+            ->where('type', ProductCategory::TYPE_EQUIPMENT)
+            ->ordered()
+            ->get();
+
+        $chemistryCategories = ProductCategory::active()
+            ->showOnHome()
+            ->where('type', ProductCategory::TYPE_CHEMISTRY)
+            ->ordered()
+            ->get();
+
+        return view('home', compact(
+            'news',
+            'articles',
+            'brands',
+            'equipmentCategories',
+            'chemistryCategories',
+            'settings',
+        ));
     }
 }
