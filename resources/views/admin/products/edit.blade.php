@@ -27,6 +27,7 @@
         @enderror
     </div>
 
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
             <label class="block text-sm font-medium text-stone-700 mb-1">Раздел</label>
@@ -79,6 +80,16 @@
             <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
         @enderror
     </div>
+
+    <div>
+        <label class="block text-sm font-medium text-stone-700 mb-1">Артикул</label>
+        <input type="text" name="article" value="{{ old('article', $product->article) }}" placeholder=""
+               class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500 font-mono text-sm">
+        <p class="text-xs text-stone-500 mt-1">Артикул или код товара для отображения в каталоге (необязательно).</p>
+        @error('article')
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+        @enderror
+    </div>    
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>

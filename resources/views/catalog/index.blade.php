@@ -1,25 +1,49 @@
 @extends('layouts.app')
 
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('css/tmp.css') }}">
+@endpush
+
 @section('title', 'Каталог товаров')
 
 @section('content')
     <section class="py-16 bg-background">
-        <div class="mx-auto max-w-7xl px-6">
-            <div class="grid gap-10 lg:grid-cols-4">
-                <aside class="lg:col-span-1 border-r border-[#d1d5db] bg-white p-6 h-full overflow-y-auto">
-                    <div class="mb-6">
-                        <h2 class="text-lg font-bold text-[#1a2b4c] mb-4">Разделы каталога</h2>
-                    </div>
+        <div class="mx-auto max-w-7xl px-6 bg-[#f9fafb]">
 
-                    <nav class="space-y-1">
+<div class="min-h-screen bg-[#f9fafb]">
+  <div class="mx-auto max-w-7xl px-6">
+<div class="w-1/5 bg-blue-100 p-4 rounded-sm bg-card p-6 transition-all">
+                            <h1 class="text-3xl md:text-4xl font-bold text-[#1a2b4c] mb-2">
+                                @if($activeCategory)
+                                    {{ $activeCategory->name }}
+                                @else
+                                    Каталог товаров
+                                @endif
+                            </h1> 
+</div>
+  
+    <div class="flex">
+      <!-- Левая колонка (25%) -->
+      <div class="w-1/5 bg-blue-100 p-4 rounded-sm bg-card p-6 transition-all">
+<nav class="space-y-1">
                         <a href="{{ route('catalog.index') }}"
-                           class="flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium {{ !$activeCategory ? 'bg-[#2c5282] text-white' : 'text-[#5a6a85] hover:text-[#1a2b4c] hover:bg-[#f3f4f6]' }} transition-colors">
+                           class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium {{ !$activeCategory ? 'bg-[#2c5282] text-white' : 'text-[#5a6a85] hover:text-[#1a2b4c] hover:bg-[#f3f4f6]' }} transition-colors">
+                            <span class="inline-flex h-8 w-8 items-center justify-center rounded-md bg-[#f3f4f6] text-[#1a2b4c] shrink-0 category-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+                            </span>
                             <span>Все товары</span>
                         </a>
 
                         @foreach($categories as $category)
                             <a href="{{ route('catalog.category', $category->slug) }}"
-                               class="flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium {{ $activeCategory && $activeCategory->id === $category->id ? 'bg-[#2c5282] text-white' : 'text-[#5a6a85] hover:text-[#1a2b4c] hover:bg-[#f3f4f6]' }} transition-colors">
+                               class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium {{ $activeCategory && $activeCategory->id === $category->id ? 'bg-[#2c5282] text-white' : 'text-[#5a6a85] hover:text-[#1a2b4c] hover:bg-[#f3f4f6]' }} transition-colors">
+                                <span class="inline-flex h-8 w-8 items-center justify-center rounded-md bg-[#f3f4f6] text-[#1a2b4c] shrink-0 category-icon">
+                                    @if($category->svg_icon)
+                                        {!! $category->svg_icon !!}
+                                    @else
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+                                    @endif
+                                </span>
                                 <span>{{ $category->name }}</span>
                             </a>
                         @endforeach
@@ -30,45 +54,20 @@
                             </p>
                         @endif
                     </nav>
-                </aside>
+      </div>
+      
 
-                <section class="space-y-8 lg:col-span-3">
-                    <div class="space-y-3">
-                        <div class="p-5 md:p-6 lg:p-8 border-b border-[#d1d5db] bg-white rounded-t-lg">
-                            <h1 class="text-3xl md:text-4xl font-bold text-[#1a2b4c] mb-2">
-                                @if($activeCategory)
-                                    {{ $activeCategory->name }}
-                                @else
-                                    Каталог товаров
+ 
+      <!-- Правая колонка (75%) -->
+      <div class="w-4/5 bg-green-100 p-4 rounded-sm bg-card p-6 transition-all w-full">
+<div class="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-1 lg:gap-6 lg:grid-cols-2">
+
+                                @if($products->isEmpty())
+                                    <p class="text-sm text-muted-foreground">
+                                        Раздел наполняется, актуальную информацию Вы можете получить, <a class="font-bold" href="/#contacts">связавшись</a> с нами.
+                                    </p>
                                 @endif
-                            </h1>
-                            <p class="text-sm text-[#5a6a85]">
-                                Найдено товаров: {{ $products->total() }}
-                            </p>
-                        </div>
 
-                        @if($activeCategory && $activeCategory->image)
-                            <div class="hidden sm:block w-40 h-24 rounded-sm overflow-hidden border border-stone-200 bg-stone-50">
-                                <img src="{{ asset('storage/' . $activeCategory->image) }}"
-                                     alt="{{ $activeCategory->name }}"
-                                     class="w-full h-full object-cover">
-                            </div>
-                        @endif
-
-                        @if($activeCategory && $activeCategory->description)
-                            <div class="prose prose-sm max-w-none text-muted-foreground leading-relaxed">
-                                {!! $activeCategory->description !!}
-                            </div>
-                        @endif
-                    </div>
-
-                    @if($products->isEmpty())
-                        <p class="text-sm text-muted-foreground">
-                            Товаров в этом разделе пока нет.
-                        </p>
-                    @else
-                        <div class="p-4 lg:p-0">
-                            <div class="grid gap-4 lg:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                                 @foreach($products as $product)
                                     <article class="group flex flex-col overflow-hidden rounded-lg border border-[#d1d5db] bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:border-[#2c5282]">
                                         <a href="{{ route('catalog.show', $product) }}" class="relative h-56 w-full overflow-hidden bg-[#f3f4f6]">
@@ -98,7 +97,7 @@
                                                     </span>
                                                 @endif
                                                 <span class="text-xs text-[#5a6a85] truncate max-w-[120px]">
-                                                    {{ $product->slug }}
+                                                    {{ $product->article }}
                                                 </span>
                                             </div>
 
@@ -113,9 +112,15 @@
                                             @endif
 
                                             <div class="flex items-center justify-between gap-3 pt-2">
-                                                <span class="text-lg font-bold text-[#2c5282]">
-                                                    {{ number_format((int) $product->price, 0, ',', ' ') }} ₽
-                                                </span>
+                                                @if($product->price && (int) $product->price > 0)
+                                                    <span class="text-lg font-bold text-[#2c5282]">
+                                                        {{ number_format((int) $product->price, 0, ',', ' ') }} ₽
+                                                    </span>
+                                                @else
+                                                    <span class="text-lg font-bold text-[#2c5282]">
+                                                        Цена по запросу
+                                                    </span>
+                                                @endif
                                                 <a href="{{ route('catalog.show', $product) }}"
                                                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium border bg-background h-8 rounded-md gap-1.5 px-3 border-[#2c5282] text-[#2c5282] hover:bg-[#2c5282] hover:text-white transition-colors">
                                                     Подробнее
@@ -124,14 +129,13 @@
                                         </div>
                                     </article>
                                 @endforeach
+
                             </div>
                         </div>
-
-                        <div class="mt-8">
-                            {{ $products->links() }}
-                        </div>
-                    @endif
-                </section>
+      </div>
+    </div>
+  </div>
+</div>
             </div>
         </div>
     </section>

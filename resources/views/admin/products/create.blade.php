@@ -69,30 +69,20 @@
     </div>
 
     <div>
-        <label class="block text-sm font-medium text-stone-700 mb-1">Раздел</label>
-        @if($categories->isEmpty())
-            <p class="text-sm text-stone-500">Разделы ещё не созданы. Товар можно сохранить без привязки к разделу.</p>
-        @else
-            <select name="product_category_id"
-                    class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
-                <option value="">Без раздела</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}" @selected(old('product_category_id') == $category->id)>
-                        {{ $category->name }}
-                    </option>
-                @endforeach
-            </select>
-        @endif
-        @error('product_category_id')
+        <label class="block text-sm font-medium text-stone-700 mb-1">Описание</label>
+        <textarea name="description" rows="6"
+                  class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500 js-richtext">{{ old('description') }}</textarea>
+        @error('description')
             <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
         @enderror
     </div>
 
     <div>
-        <label class="block text-sm font-medium text-stone-700 mb-1">Описание</label>
-        <textarea name="description" rows="6"
-                  class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500 js-richtext">{{ old('description') }}</textarea>
-        @error('description')
+        <label class="block text-sm font-medium text-stone-700 mb-1">Артикул</label>
+        <input type="text" name="article" value="{{ old('article') }}" placeholder=""
+               class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500 font-mono text-sm">
+        <p class="text-xs text-stone-500 mt-1">Артикул или код товара для отображения в каталоге (необязательно).</p>
+        @error('article')
             <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
         @enderror
     </div>

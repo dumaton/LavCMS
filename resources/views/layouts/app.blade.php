@@ -26,7 +26,31 @@
       #site-header .header-menu-link:hover {
         color: #1e40af;
       }
+
+      /* Дополнительные утилиты цветов и размеров (на основе tmp.css) */
+      .border-\[\#d1d5db\] { border-color: #d1d5db; }
+      .bg-\[\#f3f4f6\] { background-color: #f3f4f6; }
+      .bg-\[\#2c5282\] { background-color: #2c5282; }
+      .bg-\[\#f9fafb\] { background-color: #f9fafb; }
+      .text-\[\#1a2b4c\] { color: #1a2b4c; }
+      .text-\[\#5a6a85\] { color: #5a6a85; }
+      .text-\[\#9ca3af\] { color: #9ca3af; }
+      .hover\:bg-\[\#f3f4f6\]:hover { background-color: #f3f4f6; }
+      .hover\:bg-\[\#2c5282\]:hover { background-color: #2c5282; }
+      .hover\:text-\[\#1a2b4c\]:hover { color: #1a2b4c; }
+      .hover\:text-white:hover { color: #ffffff; }
+      .h-56 { height: 14rem; }
+
+      .min-w-0 { min-width: 0; }
+
+      /* Единый размер SVG-иконок разделов в каталоге */
+      .category-icon svg {
+        width: 20px;
+        height: 20px;
+        display: block;
+      }
     </style>
+    @stack('styles')
   </head>
   <body class="font-sans antialiased">
     @php
@@ -375,5 +399,6 @@
         setTimeout(hideToast, 5000);
       })();
     </script>
+    @stack('scripts')
   </body>
 </html>
