@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход — LavCMS</title>
+    <title>Вход — ХимТехПром</title>
     <link rel="stylesheet" href="{{ asset('css/tailwind.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -13,7 +13,7 @@
 </head>
 <body class="bg-stone-900 min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-sm">
-        <h1 class="font-mono text-2xl font-semibold text-amber-400 text-center mb-8">LavCMS</h1>
+        <h1 class="font-mono text-2xl font-semibold text-amber-400 text-center mb-8">ХимТехПром</h1>
         <div class="bg-stone-800 rounded-xl shadow-xl p-6 border border-stone-700">
             <h2 class="text-stone-100 text-lg font-medium mb-4">Вход в админ-панель</h2>
             @if($errors->any())
