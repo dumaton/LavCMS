@@ -24,7 +24,6 @@ class ContactFormNotification extends Mailable
 
         return new Envelope(
             subject: $subject,
-            replyTo: [$this->contactMessage->email],
         );
     }
 

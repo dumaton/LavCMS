@@ -19,16 +19,6 @@
         <span class="label">Имя:</span><br>
         {{ $contactMessage->name }}
     </div>
-    <div class="field">
-        <span class="label">E-mail:</span><br>
-        <a href="mailto:{{ $contactMessage->email }}">{{ $contactMessage->email }}</a>
-    </div>
-    @if($contactMessage->company)
-    <div class="field">
-        <span class="label">Компания:</span><br>
-        {{ $contactMessage->company }}
-    </div>
-    @endif
     @if($contactMessage->phone)
     <div class="field">
         <span class="label">Телефон:</span><br>
@@ -46,6 +36,9 @@
         <div class="message">{{ $contactMessage->message }}</div>
     </div>
     <hr>
-    <p style="font-size: 12px; color: #888;">Это письмо отправлено автоматически с сайта. Ответьте отправителю по указанному e-mail.</p>
+    <p style="font-size: 12px; color: #888;">
+        Это письмо отправлено автоматически с сайта.
+        Для связи с отправителем используйте указанный телефон.
+    </p>
 </body>
 </html>

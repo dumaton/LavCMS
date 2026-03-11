@@ -3,51 +3,33 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'ХимТехПром - промышленное оборудование и химия под заказ')</title>
-    <meta name="description" content="@yield('meta_description', 'Комплексные поставки промышленного оборудования, промышленной химии, инструмента и расходных материалов от ведущих мировых производителей.')">
+    <title>@yield('title')</title>
+    <meta name="description" content="@yield('meta_description')">
     @hasSection('meta_keywords')
     <meta name="keywords" content="@yield('meta_keywords')">
     @endif
-    <link rel="stylesheet" href="{{ asset('v2/styles.css') }}" data-precedence="styles.css">
-    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="stylesheet" href="{{ asset('styles.css') }}" data-precedence="styles.css">
+    <link rel="icon" href="{{ asset('icon.png') }}" type="image/png">
     <style>
       @media (max-width: 1023px) {
-        #mobile-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 50; }
-        #mobile-menu.is-open { display: flex !important; }
+        #mobile-menu {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          z-index: 50;
+        }
+
+        #mobile-menu.is-open {
+          display: flex !important;
+        }
       }
+
       @media (min-width: 1024px) {
-        #mobile-menu { display: none !important; }
-      }
-      /* Пункты меню в шапке: цвет и заметная смена при наведении (не зависят от Tailwind-сборки) */
-      #site-header .header-menu-link {
-        color: #44403c;
-        transition: color 0.2s ease;
-      }
-      #site-header .header-menu-link:hover {
-        color: #1e40af;
-      }
-
-      /* Дополнительные утилиты цветов и размеров (на основе tmp.css) */
-      .border-\[\#d1d5db\] { border-color: #d1d5db; }
-      .bg-\[\#f3f4f6\] { background-color: #f3f4f6; }
-      .bg-\[\#2c5282\] { background-color: #2c5282; }
-      .bg-\[\#f9fafb\] { background-color: #f9fafb; }
-      .text-\[\#1a2b4c\] { color: #1a2b4c; }
-      .text-\[\#5a6a85\] { color: #5a6a85; }
-      .text-\[\#9ca3af\] { color: #9ca3af; }
-      .hover\:bg-\[\#f3f4f6\]:hover { background-color: #f3f4f6; }
-      .hover\:bg-\[\#2c5282\]:hover { background-color: #2c5282; }
-      .hover\:text-\[\#1a2b4c\]:hover { color: #1a2b4c; }
-      .hover\:text-white:hover { color: #ffffff; }
-      .h-56 { height: 14rem; }
-
-      .min-w-0 { min-width: 0; }
-
-      /* Единый размер SVG-иконок разделов в каталоге */
-      .category-icon svg {
-        width: 20px;
-        height: 20px;
-        display: block;
+        #mobile-menu {
+          display: none !important;
+        }
       }
     </style>
     @stack('styles')
@@ -55,69 +37,56 @@
   <body class="font-sans antialiased">
     @php
       $mainMenuItems = \App\Models\MenuItem::active()->ordered()->get();
-      $phoneMobile = \App\Models\Setting::get('phone_mobile', '+7 (917) 436-00-01');
-      $phoneCity = \App\Models\Setting::get('phone_city', '+7 (347) 215-17-57');
-      $contactEmail = \App\Models\Setting::get('contact_email', 'ooohtp@mail.ru');
-      $contactAddress = \App\Models\Setting::get('contact_address', 'г. Уфа, ул. Гоголя, 60/1');
-      $contactLegalAddress = \App\Models\Setting::get('contact_legal_address');
-      $contactHours = \App\Models\Setting::get('contact_hours');
-      $requisitesCompany = \App\Models\Setting::get('requisites_company', 'ООО «Химтехпром»');
-      $requisitesInn = \App\Models\Setting::get('requisites_inn');
-      $requisitesKpp = \App\Models\Setting::get('requisites_kpp');
-      $requisitesOgrn = \App\Models\Setting::get('requisites_ogrn');
-      $requisitesBank = \App\Models\Setting::get('requisites_bank');
-      $analyticsCode = \App\Models\Setting::get('analytics_code');
-      $footerProductCategories = \App\Models\ProductCategory::active()->ordered()->limit(10)->get();
+      $phoneMobile = \App\Models\Setting::get('phone_mobile');
+      $phoneCity = \App\Models\Setting::get('phone_city');
     @endphp
-    <header
-      id="site-header"
-      class="sticky top-0 left-0 right-0 z-50 bg-white backdrop-blur-md border-b border-gray-200 shadow-sm relative"
-    >
-      <div
-        class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 py-3 sm:py-4"
-      >
+    <header id="site-header" class="fixed top-0 left-0 right-0 z-50 bg-navy/95 backdrop-blur-sm border-b border-navy-light">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-8">
         <a class="flex items-center gap-3" href="{{ route('home') }}">
-          <img
-            src="{{ asset('images/logo.png') }}"
-            alt="Химтехпром — промышленное оборудование"
-            class="object-contain"
-            width="100"
-            fetchpriority="high"
-          />
+          <div class="flex h-10 w-10 items-center justify-center rounded-sm border border-gold">
+            <span class="font-serif text-lg font-bold text-gold">ГРХ</span>
+          </div>
+          <div class="">
+            <p class="text-sm font-semibold leading-tight text-primary-foreground">Адвокат Гиндуллин</p>
+            <p class="text-xs leading-tight text-gold">Ришат Хатмуллович</p>
+          </div>
         </a>
-        <div class="flex flex-col">
-          <span class="text-lg font-bold tracking-wide text-[#0e4098] uppercase">Химтехпром</span>
-          <span class="text-[10px] tracking-[0.25em] text-[#8b9ab5] uppercase">Промышленное оборудование</span>
-        </div>
-        <nav class="hidden items-center gap-6 lg:flex" aria-label="Основное меню">
+        <nav class="hidden items-center gap-8 lg:flex">
           @foreach($mainMenuItems as $item)
             <a
-              class="header-menu-link text-sm font-medium tracking-wide uppercase"
+              class="text-sm font-medium tracking-wide text-primary-foreground/80 transition-colors hover:text-gold"
               href="{{ $item->url }}"
               @if($item->open_new_tab) target="_blank" rel="noopener" @endif
             >
               {{ $item->title }}
             </a>
           @endforeach
-          <a href="tel:{{ $phoneMobile }}" class="flex items-center gap-1.5 text-sm text-gray-600 transition-colors hover:text-[#1a2b4c]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
-            <span>{{ $phoneMobile }}</span>
-          </a>
-          <a href="tel:{{ $phoneCity }}" class="flex items-center gap-1.5 text-sm text-gray-600 transition-colors hover:text-[#1a2b4c]">
-            <span>{{ $phoneCity }}</span>
-          </a>
-          <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-9 py-2 has-[>svg]:px-3 bg-[#2c5282] text-[#f8f9fb] hover:bg-[#3b6db5] rounded-sm px-6" href="#contacts">Запросить КП</a>
         </nav>
+        <div class="hidden items-center gap-4 lg:flex">
+          @if($phoneMobile)
+            <a href="tel:{{ preg_replace('/\D+/', '', $phoneMobile) }}" class="flex items-center gap-2 text-sm font-medium text-gold transition-colors hover:text-gold-light">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone h-4 w-4" aria-hidden="true">
+                <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path>
+              </svg>
+              {{ $phoneMobile }}
+            </a>
+          @endif
+          @if($phoneCity)
+            <a href="tel:{{ preg_replace('/\D+/', '', $phoneCity) }}" class="hidden xl:flex items-center gap-2 text-xs font-medium text-primary-foreground/80 transition-colors hover:text-gold">
+              {{ $phoneCity }}
+            </a>
+          @endif
+        </div>
         <button
           id="menu-toggle"
           type="button"
-          class="lg:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-sm transition-colors"
+          class="text-primary-foreground lg:hidden p-2 rounded-sm hover:bg-navy-light/60 transition-colors"
           aria-label="Открыть меню"
           aria-controls="mobile-menu"
           aria-expanded="false"
         >
           <span class="menu-icon-open">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu h-6 w-6" aria-hidden="true">
               <path d="M4 5h16"></path>
               <path d="M4 12h16"></path>
               <path d="M4 19h16"></path>
@@ -133,29 +102,28 @@
       </div>
       <div
         id="mobile-menu"
-        class="flex flex-col bg-white border-t border-gray-200 shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto lg:hidden"
+        class="flex flex-col bg-navy-light border-t border-navy-light shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto lg:hidden"
         aria-hidden="true"
         aria-label="Мобильное меню"
       >
         <nav class="flex flex-col gap-0 p-4" aria-label="Основное меню">
           @foreach($mainMenuItems as $item)
             <a
-              class="mobile-menu-link py-3 px-4 text-base font-medium text-gray-700 hover:text-[#2c5282] hover:bg-gray-100 rounded-sm uppercase tracking-wide"
+              class="mobile-menu-link py-3 px-4 text-base font-medium text-white hover:text-gold hover:bg-navy-light/60 rounded-sm tracking-wide"
               href="{{ $item->url }}"
               @if($item->open_new_tab) target="_blank" rel="noopener" @endif
             >
               {{ $item->title }}
             </a>
           @endforeach
-          <a class="mobile-menu-link flex items-center gap-2 py-3 px-4 text-base text-gray-600 hover:text-[#1a2b4c] hover:bg-gray-100 rounded-sm" href="tel:{{ $phoneMobile }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
-            {{ $phoneMobile }}
-          </a>
-          <a class="mobile-menu-link flex items-center gap-2 py-3 px-4 text-base text-gray-600 hover:text-[#1a2b4c] hover:bg-gray-100 rounded-sm" href="tel:{{ $phoneCity }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
-            {{ $phoneCity }}
-          </a>
-          <a class="mobile-menu-link inline-flex items-center justify-center py-3 px-6 mt-2 text-sm font-medium text-white bg-[#2c5282] rounded-sm hover:bg-[#1e4a8a] uppercase tracking-wide" href="#contacts">Запросить КП</a>
+          @if($phoneMobile)
+            <a class="mobile-menu-link flex items-center gap-2 py-3 px-4 text-base text-white hover:text-gold hover:bg-navy-light/60 rounded-sm" href="tel:{{ preg_replace('/\D+/', '', $phoneMobile) }}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0">
+                <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path>
+              </svg>
+              {{ $phoneMobile }}
+            </a>
+          @endif
         </nav>
       </div>
     </header>
@@ -164,107 +132,41 @@
       @yield('content')
     </main>
 
-    <footer class="bg-[#0f1a2e] border-t border-[#1e3054]">
-      <div class="mx-auto max-w-7xl px-6 py-16">
-        <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
-          <div class="flex flex-col gap-4 lg:col-span-1">
-            <div class="flex items-center gap-3">
-              <span class="text-base font-bold tracking-wide text-[#f8f9fb] uppercase">Химтехпром</span>
+    <footer class="border-t border-navy-light bg-navy py-12">
+      <div class="mx-auto max-w-7xl px-4 lg:px-8">
+        <div class="flex flex-col items-center gap-6 md:flex-row md:justify-between">
+          <div class="flex items-center gap-3">
+            <div class="flex h-9 w-9 items-center justify-center rounded-sm border border-gold">
+              <span class="font-serif text-base font-bold text-gold">ГРХ</span>
             </div>
-            <p class="text-sm leading-relaxed text-[#8b9ab5]">
-              Комплексные поставки промышленного оборудования и химии для предприятий России и СНГ.
-            </p>
-            <div class="flex flex-col gap-2 mt-2">
-              <a href="tel:{{ $phoneMobile }}" class="flex items-center gap-2 text-sm text-[#8b9ab5] hover:text-[#f8f9fb] transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone h-4 w-4" aria-hidden="true">
-                  <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path>
-                </svg>
-                {{ $phoneMobile }}
-              </a>
-              <a href="tel:{{ $phoneCity }}" class="flex items-center gap-2 text-sm text-[#8b9ab5] hover:text-[#f8f9fb] transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone h-4 w-4" aria-hidden="true">
-                  <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path>
-                </svg>
-                {{ $phoneCity }}
-              </a>
-              <a href="mailto:{{ $contactEmail }}" class="flex items-center gap-2 text-sm text-[#8b9ab5] hover:text-[#f8f9fb] transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail h-4 w-4" aria-hidden="true">
-                  <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path>
-                  <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                </svg>
-                {{ $contactEmail }}
-              </a>
-              <span class="flex items-center gap-2 text-sm text-[#8b9ab5]">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-4 w-4" aria-hidden="true">
-                  <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                {{ $contactAddress }}
-              </span>
+            <div>
+              <p class="text-sm font-semibold text-primary-foreground">Адвокат Гиндуллин Р.Х.</p>
+              <p class="text-xs text-primary-foreground/60">НО «Уфимская коллегия адвокатов» РБ</p>
             </div>
           </div>
-          <div class="flex flex-col gap-4">
-            <h4 class="text-xs font-medium tracking-widest text-[#5a9cf5] uppercase">Навигация</h4>
-            <nav class="flex flex-col gap-2.5">
-              @foreach($mainMenuItems as $item)
-                <a
-                  class="text-sm text-[#8b9ab5] transition-colors hover:text-[#f8f9fb]"
-                  href="{{ $item->url }}"
-                  @if($item->open_new_tab) target="_blank" rel="noopener" @endif
-                >
-                  {{ $item->title }}
-                </a>
-              @endforeach
-            </nav>
-          </div>
-          <div class="flex flex-col gap-4">
-            <h4 class="text-xs font-medium tracking-widest text-[#5a9cf5] uppercase">Продукция</h4>
-            <nav class="flex flex-col gap-2.5">
-              @forelse($footerProductCategories as $category)
-                <a
-                  href="{{ route('catalog.category', $category->slug) }}"
-                  class="text-sm text-[#8b9ab5] transition-colors hover:text-[#f8f9fb]"
-                >
-                  {{ $category->name }}
-                </a>
-              @empty
-                <span class="text-sm text-[#8b9ab5] transition-colors">
-                  Разделы каталога пока не добавлены.
-                </span>
-              @endforelse
-            </nav>
-          </div>
-          <div class="flex flex-col gap-4">
-            <h4 class="text-xs font-medium tracking-widest text-[#5a9cf5] uppercase">Реквизиты</h4>
-            <div class="flex flex-col gap-2 text-sm text-[#8b9ab5]">
-              @if($requisitesCompany)
-                <p>{{ $requisitesCompany }}</p>
-              @endif
-              @if($requisitesInn)
-                <p>ИНН: {{ $requisitesInn }}</p>
-              @endif
-              @if($requisitesKpp)
-                <p>КПП: {{ $requisitesKpp }}</p>
-              @endif
-              @if($requisitesOgrn)
-                <p>ОГРН: {{ $requisitesOgrn }}</p>
-              @endif
-              @if($contactLegalAddress)
-                <p class="mt-2 text-xs leading-relaxed">Юр. адрес: {{ $contactLegalAddress }}</p>
-              @endif
-              @if($requisitesBank)
-                <div class="mt-2 text-xs leading-relaxed whitespace-pre-line">{!! nl2br(e($requisitesBank)) !!}</div>
-              @endif
-            </div>
-          </div>
+          <nav class="flex flex-wrap items-center justify-center gap-6">
+            @foreach($mainMenuItems as $item)
+              <a
+                class="text-sm text-primary-foreground/60 transition-colors hover:text-gold"
+                href="{{ $item->url }}"
+                @if($item->open_new_tab) target="_blank" rel="noopener" @endif
+              >
+                {{ $item->title }}
+              </a>
+            @endforeach
+          </nav>
         </div>
-        <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-[#1e3054] pt-8 md:flex-row">
-          <p class="text-xs text-[#5a6a85]">
-            © {{ date('Y') }} {{ $requisitesCompany ?: 'ООО «Химтехпром»' }}. Все права защищены.
-          </p>
-          <div class="flex gap-6">
-            <a class="text-xs text-[#5a6a85] hover:text-[#8b9ab5] transition-colors" href="{{ route('legal.privacy') }}">Политика конфиденциальности</a>
-            <a class="text-xs text-[#5a6a85] hover:text-[#8b9ab5] transition-colors" href="{{ route('legal.terms') }}">Пользовательское соглашение</a>
+        <div class="mt-8 border-t border-navy-light pt-8">
+          <div class="flex flex-col items-center gap-4 text-center md:flex-row md:justify-between md:text-left">
+            <p class="text-xs text-primary-foreground/40">
+              2026 Адвокат Гиндуллин Ришат Хатмуллович. Все права защищены.
+            </p>
+            <a
+              class="text-xs text-primary-foreground/40 transition-colors hover:text-gold"
+              href="{{ route('legal.privacy') }}"
+            >
+              Политика конфиденциальности
+            </a>
           </div>
         </div>
       </div>

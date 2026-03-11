@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Админ') — ХимТехПром</title>
+    <title>@yield('title', 'Админ') — OlfiCMS</title>
     <link rel="stylesheet" href="{{ asset('css/tailwind.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -15,7 +15,7 @@
     <div class="flex min-h-screen">
         <aside class="w-56 bg-stone-900 text-stone-100 flex flex-col fixed h-full">
             <div class="p-4 border-b border-stone-700">
-                <a href="{{ route('admin.dashboard') }}" class="font-mono text-lg font-semibold">ХимТехПром</a>
+                <a href="{{ route('admin.dashboard') }}" class="font-mono text-lg font-semibold">OlfiCMS</a>
                 <p class="text-xs text-stone-400 mt-1">Админ-панель</p>
             </div>
             <nav class="flex-1 p-3 space-y-1">
@@ -27,19 +27,6 @@
                     </svg>
                     <span>Дашборд</span>
                 </a>
-                
-                @if(config('features.news_enabled'))
-                    <a href="{{ route('admin.news.index') }}"
-                       class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.news.*') ? 'bg-stone-800 text-amber-400' : '' }}">
-                        <svg class="w-4 h-4 shrink-0 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="4" y="4" width="16" height="16" rx="2" />
-                            <path d="M8 9h8" />
-                            <path d="M8 13h5" />
-                        </svg>
-                        <span>Новости</span>
-                    </a>
-                @endif
-                
                 @if(config('features.articles_enabled'))
                     <a href="{{ route('admin.articles.index') }}"
                        class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.articles.*') ? 'bg-stone-800 text-amber-400' : '' }}">
@@ -52,36 +39,6 @@
                         <span>Статьи</span>
                     </a>
                 @endif
-
-                <a href="{{ route('admin.products.index') }}"
-                   class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.products.*') ? 'bg-stone-800 text-amber-400' : '' }}">
-                    <svg class="w-4 h-4 shrink-0 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="4" width="7" height="7" rx="1.5" />
-                        <rect x="14" y="4" width="7" height="7" rx="1.5" />
-                        <rect x="3" y="13" width="7" height="7" rx="1.5" />
-                        <rect x="14" y="13" width="7" height="7" rx="1.5" />
-                    </svg>
-                    <span>Каталог</span>
-                </a>
-
-                <a href="{{ route('admin.product-categories.index') }}"
-                   class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.product-categories.*') ? 'bg-stone-800 text-amber-400' : '' }}">
-                    <svg class="w-4 h-4 shrink-0 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 6h16" />
-                        <path d="M4 12h10" />
-                        <path d="M4 18h7" />
-                    </svg>
-                    <span>Разделы каталога</span>
-                </a>
-
-                <a href="{{ route('admin.brands.index') }}"
-                   class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.brands.*') ? 'bg-stone-800 text-amber-400' : '' }}">
-                    <svg class="w-4 h-4 shrink-0 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
-                        <line x1="7" y1="7" x2="7.01" y2="7" />
-                    </svg>
-                    <span>Бренды</span>
-                </a>
 
                 <a href="{{ route('admin.contacts.index') }}"
                    class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.contacts.*') ? 'bg-stone-800 text-amber-400' : '' }}">
@@ -100,6 +57,26 @@
                         <line x1="3" y1="18" x2="21" y2="18" />
                     </svg>
                     <span>Меню</span>
+                </a>
+
+                <a href="{{ route('admin.services.index') }}"
+                   class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.services.*') ? 'bg-stone-800 text-amber-400' : '' }}">
+                    <svg class="w-4 h-4 shrink-0 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="16" rx="2" />
+                        <path d="M7 8h10" />
+                        <path d="M7 12h6" />
+                        <path d="M7 16h4" />
+                    </svg>
+                    <span>Услуги</span>
+                </a>
+
+                <a href="{{ route('admin.prices.index') }}"
+                   class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-stone-800 transition {{ request()->routeIs('admin.prices.*') ? 'bg-stone-800 text-amber-400' : '' }}">
+                    <svg class="w-4 h-4 shrink-0 text-stone-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 1v22" />
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                    <span>Стоимость</span>
                 </a>
 
                 <a href="{{ route('admin.users.index') }}"

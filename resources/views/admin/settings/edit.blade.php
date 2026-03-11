@@ -5,34 +5,33 @@
 
 @section('content')
 @php
-    $homeTitle = $settings['home_title'] ?? 'Главная';
-    $homeDescription = $settings['home_description'] ?? 'Простая CMS для новостей и статей.';
-    $keywords = $settings['keywords'] ?? '';
-    $heroBadge = $settings['hero_badge'] ?? 'Надежный поставщик';
-    $heroTitle = $settings['hero_title'] ?? 'Промышленное оборудование и химия';
-    $heroSubtitle = $settings['hero_subtitle'] ?? 'для вашего производства';
-    $heroDescription = $settings['hero_description'] ?? 'Комплексные поставки промышленного оборудования, промышленной химии, инструмента и расходных материалов от ведущих мировых производителей. Индивидуальный подход к каждому клиенту.';
-    $aboutBadge = $settings['about_badge'] ?? 'О компании';
-    $aboutTitle = $settings['about_title'] ?? 'Комплексный поставщик промышленного оборудования и промышленной химии';
-    $aboutText = $settings['about_text'] ?? 'ООО «Химтехпром» — динамично развивающаяся компания, специализирующаяся на поставках:<br>
-- промышленного оборудования, инструмента и расходных материалов для предприятий нефтегазовой, химической промышленности;<br>
-- промышленной химии для нефтеперерабатывающих, химических, лакокрасочных, пищевых отраслей.<br>
-Рассмотрим все запросы и постараемся учесть все потребности покупателя. Мы ценим каждого клиента и стремимся к долгосрочным отношениям.';
-    $phoneMobile = $settings['phone_mobile'] ?? '+7 (917) 436-00-01';
-    $phoneCity = $settings['phone_city'] ?? '+7 (347) 215-17-57';
-    $contactEmail = $settings['contact_email'] ?? 'ooohtp@mail.ru';
-    $notificationsEmail = $settings['notifications_email'] ?? $contactEmail;
-    $contactAddress = $settings['contact_address'] ?? 'г. Уфа, ул. Гоголя, 60/1';
-    $contactLegalAddress = $settings['contact_legal_address'] ?? '';
-    $contactHours = $settings['contact_hours'] ?? "Пн-Пт: 9:00-18:00\nСб-Вс: выходной";
-    $requisitesCompany = $settings['requisites_company'] ?? 'ООО «Химтехпром»';
-    $requisitesInn = $settings['requisites_inn'] ?? '0276974787';
-    $requisitesKpp = $settings['requisites_kpp'] ?? '027401001';
-    $requisitesOgrn = $settings['requisites_ogrn'] ?? '1230200013779';
-    $requisitesBank = $settings['requisites_bank'] ?? '';
-    $privacyPolicy = $settings['privacy_policy'] ?? '';
-    $termsOfUse = $settings['terms_of_use'] ?? '';
-    $analyticsCode = $settings['analytics_code'] ?? '';
+    $homeTitle = $settings['home_title'] ?? null;
+    $homeDescription = $settings['home_description'] ?? null;
+    $keywords = $settings['keywords'] ?? null;
+    $heroTitle = $settings['hero_title'] ?? null;
+    $heroSubtitleHighlight = $settings['hero_subtitle_highlight'] ?? null;
+    $heroSubtitle = $settings['hero_subtitle'] ?? null;
+    $heroDescription = $settings['hero_description'] ?? null;
+    $aboutTitle = $settings['about_title'] ?? null;
+    $aboutText = $settings['about_text'] ?? null;
+    $phoneMobile = $settings['phone_mobile'] ?? null;
+    $phoneCity = $settings['phone_city'] ?? null;
+    $contactEmail = $settings['contact_email'] ?? null;
+    $notificationsEmail = $settings['notifications_email'] ?? null;
+    $contactAddress = $settings['contact_address'] ?? null;
+    $contactLegalAddress = $settings['contact_legal_address'] ?? null;
+    $contactHours = $settings['contact_hours'] ?? null;
+    $citiesJson = $settings['cities'] ?? '[]';
+    $cities = [];
+    if (is_string($citiesJson) && $citiesJson !== '') {
+        $decoded = json_decode($citiesJson, true);
+        if (is_array($decoded)) {
+            $cities = $decoded;
+        }
+    }
+    $privacyPolicy = $settings['privacy_policy'] ?? null;
+    $termsOfUse = $settings['terms_of_use'] ?? null;
+    $analyticsCode = $settings['analytics_code'] ?? null;
 @endphp
 
 <form action="{{ route('admin.settings.update') }}" method="POST" class="max-w-2xl space-y-6">
@@ -72,30 +71,29 @@
         <h2 class="text-lg font-semibold text-stone-800">Приветственный блок на главной</h2>
         <p class="text-sm text-stone-500">Тексты верхнего промо-блока на главной странице.</p>
     </div>
-
-        <div>
-            <label for="hero_badge" class="block text-sm font-medium text-stone-700 mb-1">Ярлык</label>
-            <input type="text" name="hero_badge" id="hero_badge" value="{{ old('hero_badge', $heroBadge) }}"
-                   class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
-            @error('hero_badge')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-            <p class="text-xs text-stone-400 mt-1">Небольшой ярлык над заголовком, например: «Надежный поставщик».</p>
-        </div>
-
     <div>
         <label for="hero_title" class="block text-sm font-medium text-stone-700 mb-1">Заголовок</label>
         <input type="text" name="hero_title" id="hero_title" value="{{ old('hero_title', $heroTitle) }}"
                class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
         @error('hero_title')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-        <p class="text-xs text-stone-400 mt-1">Основной заголовок, например: «Промышленное оборудование и химия».</p>
+        <p class="text-xs text-stone-400 mt-1">Основной заголовок</p>
     </div>
 
-        <div>
-            <label for="hero_subtitle" class="block text-sm font-medium text-stone-700 mb-1">Подзаголовок</label>
-            <input type="text" name="hero_subtitle" id="hero_subtitle" value="{{ old('hero_subtitle', $heroSubtitle) }}"
-                   class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
-            @error('hero_subtitle')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-            <p class="text-xs text-stone-400 mt-1">Выделенная часть заголовка, например: «для вашего производства».</p>
-        </div>
+    <div>
+        <label for="hero_subtitle_highlight" class="block text-sm font-medium text-stone-700 mb-1">Выделенный подзаголовок</label>
+        <input type="text" name="hero_subtitle_highlight" id="hero_subtitle_highlight" value="{{ old('hero_subtitle_highlight', $heroSubtitleHighlight) }}"
+               class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
+        @error('hero_subtitle_highlight')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
+        <p class="text-xs text-stone-400 mt-1">Часть подзаголовка, которая будет визуально выделена.</p>
+    </div>
+
+    <div>
+        <label for="hero_subtitle" class="block text-sm font-medium text-stone-700 mb-1">Подзаголовок</label>
+        <input type="text" name="hero_subtitle" id="hero_subtitle" value="{{ old('hero_subtitle', $heroSubtitle) }}"
+               class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
+        @error('hero_subtitle')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
+        <p class="text-xs text-stone-400 mt-1">Обычная часть подзаголовка.</p>
+    </div>
 
 
     <div>
@@ -103,32 +101,25 @@
         <textarea name="hero_description" id="hero_description" rows="3"
                   class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">{{ old('hero_description', $heroDescription) }}</textarea>
         @error('hero_description')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-        <p class="text-xs text-stone-400 mt-1">Текст под заголовком, кратко о компании и предложении.</p>
+        <p class="text-xs text-stone-400 mt-1">Текст под заголовком.</p>
     </div>
 
     <div class="space-y-2 pt-4 border-t border-stone-200">
-        <h2 class="text-lg font-semibold text-stone-800">Блок «О компании»</h2>
-        <p class="text-sm text-stone-500">Тексты информационного блока «О компании» на главной странице.</p>
+        <h2 class="text-lg font-semibold text-stone-800">Блок «Об адвокате»</h2>
+        <p class="text-sm text-stone-500">Тексты информационного блока «Об адвокате» на главной странице.</p>
     </div>
 
-        <div>
-            <label for="about_badge" class="block text-sm font-medium text-stone-700 mb-1">Ярлык</label>
-            <input type="text" name="about_badge" id="about_badge" value="{{ old('about_badge', $aboutBadge) }}"
-                   class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
-            @error('about_badge')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-            <p class="text-xs text-stone-400 mt-1">Небольшой ярлык над заголовком, например: «О компании».</p>
-        </div>
-        <div>
+    <div>
             <label for="about_title" class="block text-sm font-medium text-stone-700 mb-1">Заголовок</label>
             <input type="text" name="about_title" id="about_title" value="{{ old('about_title', $aboutTitle) }}"
                    class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
             @error('about_title')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-            <p class="text-xs text-stone-400 mt-1">Основной заголовок блока «О компании».</p>
+            <p class="text-xs text-stone-400 mt-1">Основной заголовок блока «Об адвокате».</p>
         </div>
 
 
     <div>
-        <label for="about_text" class="block text-sm font-medium text-stone-700 mb-1">Текст блока «О компании»</label>
+        <label for="about_text" class="block text-sm font-medium text-stone-700 mb-1">Текст блока «Об адвокате»</label>
         <textarea name="about_text" id="about_text" rows="4"
                   class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">{{ old('about_text', $aboutText) }}</textarea>
         @error('about_text')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
@@ -200,47 +191,25 @@
     </div>
 
     <div class="space-y-2 pt-4 border-t border-stone-200">
-        <h2 class="text-lg font-semibold text-stone-800">Реквизиты</h2>
-        <p class="text-sm text-stone-500">Отображаются в подвале сайта.</p>
+        <h2 class="text-lg font-semibold text-stone-800">Список городов</h2>
+        <p class="text-sm text-stone-500">
+            Города, с которыми вы работаете. Можно добавлять новые и менять порядок кнопками.
+        </p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div>
-            <label for="requisites_company" class="block text-sm font-medium text-stone-700 mb-1">Название организации</label>
-            <input type="text" name="requisites_company" id="requisites_company" value="{{ old('requisites_company', $requisitesCompany) }}"
-                   class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
-            @error('requisites_company')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-            <p class="text-xs text-stone-400 mt-1">Например: ООО «Химтехпром»</p>
+    <div id="cities-settings" class="space-y-3">
+        <input type="hidden" name="cities" id="cities-input" value="{{ old('cities', json_encode($cities, JSON_UNESCAPED_UNICODE)) }}">
+        <div id="cities-list" class="space-y-2">
+            <!-- Ряды городов будут добавлены скриптом -->
         </div>
-        <div>
-            <label for="requisites_inn" class="block text-sm font-medium text-stone-700 mb-1">ИНН</label>
-            <input type="text" name="requisites_inn" id="requisites_inn" value="{{ old('requisites_inn', $requisitesInn) }}"
-                   class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
-            @error('requisites_inn')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-        </div>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div>
-            <label for="requisites_kpp" class="block text-sm font-medium text-stone-700 mb-1">КПП</label>
-            <input type="text" name="requisites_kpp" id="requisites_kpp" value="{{ old('requisites_kpp', $requisitesKpp) }}"
-                   class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
-            @error('requisites_kpp')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-        </div>
-        <div>
-            <label for="requisites_ogrn" class="block text-sm font-medium text-stone-700 mb-1">ОГРН</label>
-            <input type="text" name="requisites_ogrn" id="requisites_ogrn" value="{{ old('requisites_ogrn', $requisitesOgrn) }}"
-                   class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
-            @error('requisites_ogrn')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-        </div>
-    </div>
-
-    <div>
-        <label for="requisites_bank" class="block text-sm font-medium text-stone-700 mb-1">Банковские реквизиты</label>
-        <textarea name="requisites_bank" id="requisites_bank" rows="4"
-                  class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500">{{ old('requisites_bank', $requisitesBank) }}</textarea>
-        @error('requisites_bank')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-        <p class="text-xs text-stone-400 mt-1">Банк, БИК, расчётный счёт, корр. счёт — каждая строка с новой линии.</p>
+        <button type="button"
+                id="add-city-btn"
+                class="inline-flex items-center rounded-lg border border-stone-300 px-3 py-1.5 text-sm font-medium text-stone-700 hover:bg-stone-50">
+            + Добавить город
+        </button>
+        <p class="text-xs text-stone-400">
+            Порядок в списке определяется сверху вниз. Пустые строки при сохранении будут автоматически убраны.
+        </p>
     </div>
 
     <div class="space-y-2 pt-4 border-t border-stone-200">
@@ -296,5 +265,116 @@
         </button>
     </div>
 </form>
-@endsection
 
+<script>
+    (function () {
+        const listEl = document.getElementById('cities-list');
+        const hiddenInput = document.getElementById('cities-input');
+        const addBtn = document.getElementById('add-city-btn');
+        if (!listEl || !hiddenInput || !addBtn) {
+            return;
+        }
+
+        function readFromHidden() {
+            try {
+                const value = hiddenInput.value || '[]';
+                const parsed = JSON.parse(value);
+                if (Array.isArray(parsed)) {
+                    return parsed;
+                }
+            } catch (e) {
+                console.warn('Invalid cities JSON in settings', e);
+            }
+            return [];
+        }
+
+        function writeToHidden() {
+            const names = Array.from(listEl.querySelectorAll('.js-city-name-input'))
+                .map(function (input) { return input.value.trim(); })
+                .filter(function (value) { return value.length > 0; });
+            hiddenInput.value = JSON.stringify(names);
+        }
+
+        function createRow(name) {
+            const row = document.createElement('div');
+            row.className = 'flex items-center gap-2';
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = name || '';
+            input.className = 'js-city-name-input flex-1 px-3 py-1.5 border border-stone-300 rounded-lg focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-sm';
+
+            const controls = document.createElement('div');
+            controls.className = 'flex items-center gap-1';
+
+            const upBtn = document.createElement('button');
+            upBtn.type = 'button';
+            upBtn.textContent = '↑';
+            upBtn.className = 'px-2 py-1 text-xs border border-stone-300 rounded hover:bg-stone-50';
+
+            const downBtn = document.createElement('button');
+            downBtn.type = 'button';
+            downBtn.textContent = '↓';
+            downBtn.className = 'px-2 py-1 text-xs border border-stone-300 rounded hover:bg-stone-50';
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.textContent = '×';
+            removeBtn.className = 'px-2 py-1 text-xs border border-red-300 text-red-600 rounded hover:bg-red-50';
+
+            upBtn.addEventListener('click', function () {
+                const prev = row.previousElementSibling;
+                if (prev) {
+                    listEl.insertBefore(row, prev);
+                    writeToHidden();
+                }
+            });
+
+            downBtn.addEventListener('click', function () {
+                const next = row.nextElementSibling;
+                if (next) {
+                    listEl.insertBefore(next, row);
+                    writeToHidden();
+                }
+            });
+
+            removeBtn.addEventListener('click', function () {
+                row.remove();
+                writeToHidden();
+            });
+
+            input.addEventListener('change', writeToHidden);
+            input.addEventListener('blur', writeToHidden);
+
+            controls.appendChild(upBtn);
+            controls.appendChild(downBtn);
+            controls.appendChild(removeBtn);
+
+            row.appendChild(input);
+            row.appendChild(controls);
+
+            return row;
+        }
+
+        function renderInitial() {
+            const cities = readFromHidden();
+            listEl.innerHTML = '';
+            if (cities.length === 0) {
+                listEl.appendChild(createRow(''));
+                return;
+            }
+            cities.forEach(function (name) {
+                listEl.appendChild(createRow(name));
+            });
+        }
+
+        addBtn.addEventListener('click', function () {
+            listEl.appendChild(createRow(''));
+            writeToHidden();
+        });
+
+        renderInitial();
+    })();
+</script>
+
+@endsection
